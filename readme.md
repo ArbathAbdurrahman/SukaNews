@@ -12,6 +12,7 @@ SukaNews adalah portal berita kampus yang menyediakan informasi terbaru seputar 
 ## Fitur Utama
 - Berita terkini seputar kampus
 - Kategori berita berdasarkan topik
+- Pengumuman mengenai berita kehilangan
 - Komentar dan interaksi pengguna
 - Dashboard untuk mengelola konten
 
