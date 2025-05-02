@@ -1,4 +1,4 @@
-{% include 'snippets/base.html' %}
+<!-- {% include 'snippets/base.html' %}
 {% block content %}
 <div>
     <h1>{{nama}}</h1>
@@ -6,4 +6,327 @@
     <h2><a href="{% url 'event' %}">Event</a></h2>
     <h2><a href="{% url 'info' %}">Info</a></h2>
 </div>
-{% endblock content %}
+{% endblock content %} -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./src/output.css" rel="stylesheet">
+    <title>Document</title>
+</head>
+<body>
+    <div class="w-[1920px] h-[3523px] relative">
+        <div class="w-[1920px] h-32 left-0 top-0 absolute">
+            <div class="w-[1920px] h-32 left-0 top-0 absolute bg-white overflow-hidden">
+                <div class="w-52 h-9 left-[75px] top-[48px] absolute">
+                    <div class="left-0 top-0 absolute justify-start text-black text-3xl font-black font-['Inter']">SUKANEWS</div>
+                </div>
+                <div class="w-40 h-10 left-[1692px] top-[45px] absolute">
+                    <div class="left-[15px] top-[12px] absolute justify-start text-black text-lg font-medium font-['Helvetica_Neue']">Login/Register</div>
+                    <div class="w-40 h-10 left-0 top-0 absolute rounded-[10px] border-2 border-black"></div>
+                </div>
+                <div class="w-[501px] h-10 left-[1191px] top-[46px] absolute inline-flex justify-center items-center gap-9">
+                    <div class="justify-start text-black text-lg font-medium font-['Helvetica_Neue']">Beranda</div>
+                    <div class="justify-start text-black text-lg font-medium font-['Helvetica_Neue']">Kampus</div>
+                    <div class="justify-start text-black text-lg font-medium font-['Helvetica_Neue']">Acara</div>
+                    <div class="justify-start text-black text-lg font-medium font-['Helvetica_Neue']">Info</div>
+                    <div class="justify-start text-black text-lg font-medium font-['Helvetica_Neue']">Cari</div>
+                </div>
+            </div>
+        </div>
+        <div class="w-[1920px] h-[885px] left-0 top-[1080px] absolute bg-black overflow-hidden">
+            <div class="left-[981px] top-[151px] absolute inline-flex flex-col justify-start items-start gap-5">
+                <div class="w-96 h-[505px] relative overflow-hidden">
+                    <img class="w-96 h-[612px] left-[-1px] top-[-73px] absolute" src="https://placehold.co/408x612" />
+                </div>
+                <div class="w-96 flex flex-col justify-start items-start gap-4">
+                    <div class="self-stretch flex flex-col justify-start items-start gap-2">
+                        <div class="self-stretch justify-start text-white text-xl font-normal font-['Helvetica_Neue'] leading-relaxed">Lorem ipsum dolor sit amet consectetur. Eu quis scelerisque lacus sapien sapien dui in.</div>
+                        <div class="self-stretch justify-start text-stone-300 text-sm font-normal font-['Helvetica_Neue'] leading-snug">Lorem ipsum dolor sit amet consectetur. Ac diam a magna nullam sed lectus. Cursus curabitur iaculis sit vel tellus risus.</div>
+                    </div>
+                    <div class="inline-flex justify-start items-center gap-3">
+                        <div class="justify-start text-white/70 text-xs font-normal font-['Helvetica_Neue'] leading-none">Event</div>
+                        <div class="w-3 h-0 origin-top-left rotate-90 outline outline-1 outline-offset-[-0.50px] outline-white/70"></div>
+                        <div class="justify-start text-white/70 text-xs font-normal font-['Helvetica_Neue'] leading-none">Read more...</div>
+                    </div>
+                </div>
+            </div>
+            <div class="left-[527px] top-[151px] absolute inline-flex flex-col justify-start items-start gap-5">
+                <div class="w-96 h-[505px] relative overflow-hidden">
+                    <img class="w-[897.78px] h-[505px] left-[-245px] top-0 absolute" src="https://placehold.co/898x505" />
+                </div>
+                <div class="w-96 h-36 flex flex-col justify-start items-start gap-4">
+                    <div class="self-stretch flex flex-col justify-start items-start gap-2">
+                        <div class="self-stretch justify-start text-white text-xl font-normal font-['Helvetica_Neue'] leading-relaxed">Lorem ipsum dolor sit amet consectetur. Id eget nulla in gravida eget viverra eu libero.</div>
+                        <div class="self-stretch justify-start text-stone-300 text-sm font-normal font-['Helvetica_Neue'] leading-snug">Lorem ipsum dolor sit amet consectetur. Sit urna augue id ultrices consequat scelerisque. Aliquet faucibus enim dictumst.</div>
+                    </div>
+                    <div class="inline-flex justify-start items-center gap-3">
+                        <div class="justify-start text-white/70 text-xs font-normal font-['Helvetica_Neue'] leading-none">Event</div>
+                        <div class="w-3 h-0 origin-top-left rotate-90 outline outline-1 outline-offset-[-0.50px] outline-white/70"></div>
+                        <div class="justify-start text-white/70 text-xs font-normal font-['Helvetica_Neue'] leading-none">Read more...</div>
+                    </div>
+                </div>
+            </div>
+            <div class="left-[75px] top-[151px] absolute inline-flex flex-col justify-start items-start gap-5">
+                <div class="w-96 h-[505px] relative overflow-hidden">
+                    <img class="w-[901.33px] h-[507px] left-[-279px] top-0 absolute" src="https://placehold.co/901x507" />
+                </div>
+                <div class="w-96 h-36 flex flex-col justify-start items-start gap-4">
+                    <div class="self-stretch flex flex-col justify-start items-start gap-2">
+                        <div class="self-stretch justify-start text-white text-xl font-normal font-['Helvetica_Neue'] leading-relaxed">Lorem ipsum dolor sit amet consectetur. Blandit id turpis pretium id suscipit. Eleifend.</div>
+                        <div class="self-stretch justify-start text-stone-300 text-sm font-normal font-['Helvetica_Neue'] leading-snug">Lorem ipsum elementum mauris hac viverra cras arcu leo in tincidunt volutpat vitae pretium tempor.</div>
+                    </div>
+                    <div class="inline-flex justify-start items-center gap-3">
+                        <div class="justify-start text-white/70 text-xs font-normal font-['Helvetica_Neue'] leading-none">Event</div>
+                        <div class="w-3 h-0 origin-top-left rotate-90 outline outline-1 outline-offset-[-0.50px] outline-white/70"></div>
+                        <div class="justify-start text-white/70 text-xs font-normal font-['Helvetica_Neue'] leading-none">Read more...</div>
+                    </div>
+                </div>
+            </div>
+            <div class="left-[1436px] top-[151px] absolute inline-flex flex-col justify-start items-start gap-5">
+                <div class="w-96 h-[505px] relative overflow-hidden">
+                    <img class="w-96 h-[723px] left-0 top-[-203px] absolute" src="https://placehold.co/407x723" />
+                </div>
+                <div class="w-96 h-36 flex flex-col justify-start items-start gap-4">
+                    <div class="self-stretch flex flex-col justify-start items-start gap-2">
+                        <div class="self-stretch justify-start text-white text-xl font-normal font-['Helvetica_Neue'] leading-relaxed">Lorem ipsum dolor sit amet consectetur. Scelerisque lacinia auctor scelerisque lacinia.</div>
+                        <div class="self-stretch justify-start text-stone-300 text-sm font-normal font-['Helvetica_Neue'] leading-snug">Lorem ipsum dolor sit amet consectetur. Ultricies tellus tincidunt pharetra et enim malesuada maecenas in porttitor mattis risus.</div>
+                    </div>
+                    <div class="inline-flex justify-start items-center gap-3">
+                        <div class="justify-start text-white/70 text-xs font-normal font-['Helvetica_Neue'] leading-none">Event</div>
+                        <div class="w-3 h-0 origin-top-left rotate-90 outline outline-1 outline-offset-[-0.50px] outline-white/70"></div>
+                        <div class="justify-start text-white/70 text-xs font-normal font-['Helvetica_Neue'] leading-none">Read more...</div>
+                    </div>
+                </div>
+            </div>
+            <div class="w-72 left-[75px] top-[82px] absolute justify-start text-white text-3xl font-normal font-['Helvetica'] leading-10">Newest Stories</div>
+            <div class="w-14 left-[1768.20px] top-[90px] absolute justify-start text-white text-base font-normal font-['Helvetica_Neue'] leading-normal">see all</div>
+            <div class="w-5 h-3.5 left-[1824.80px] top-[96px] absolute bg-black overflow-hidden">
+                <div class="w-1.5 h-2 left-[6.26px] top-[2.62px] absolute outline outline-1 outline-offset-[-0.44px] outline-white"></div>
+            </div>
+        </div>
+        <div class="w-[1920px] h-[989px] left-0 top-[132px] absolute bg-white overflow-hidden">
+            <div class="w-[1771px] h-[948px] left-[74px] top-0 absolute bg-black/50"></div>
+            <div class="h-48 left-[151px] top-[578px] absolute inline-flex flex-col justify-start items-start gap-8">
+                <div class="w-[1191px] justify-start text-white text-7xl font-normal font-['Libre_Caslon_Display'] leading-[96px]">Lorem ipsum eget egestas auctor metus porta mauris fringilla arcu.</div>
+            </div>
+            <div class="w-[579px] left-[151px] top-[793px] absolute justify-start text-white text-lg font-medium font-['Inter'] leading-loose">Learn, buy and trade art pieces of your favorite artist around the world by using crypto currencies.</div>
+        </div>
+        <div class="w-[1920px] h-[1080px] left-0 top-[1965px] absolute bg-white overflow-hidden">
+            <div class="w-72 left-[75px] top-[38px] absolute justify-start text-black text-3xl font-normal font-['Helvetica'] leading-10">Trending Stories</div>
+            <div class="w-72 left-[1487px] top-[38px] absolute justify-start text-black text-3xl font-normal font-['Helvetica'] leading-10">Breaking News</div>
+            <div class="w-96 h-[893px] left-[1487px] top-[110px] absolute overflow-hidden">
+                <div class="w-80 h-[879px] left-[14px] top-[14px] absolute">
+                    <div class="w-80 h-36 left-0 top-0 absolute border-b border-black">
+                        <div class="w-28 h-28 left-0 top-0 absolute overflow-hidden">
+                            <div class="w-28 h-28 left-0 top-0 absolute">
+                                <img class="w-28 h-28 left-0 top-0 absolute" src="https://placehold.co/110x110" />
+                            </div>
+                        </div>
+                        <div class="w-24 py-[5px] left-[124px] top-[9px] absolute rounded-[3px] inline-flex justify-center items-center gap-2.5">
+                            <div class="w-24 justify-center text-black/70 text-xs font-medium font-['Helvetica_Neue'] uppercase leading-3">Kehilangan</div>
+                        </div>
+                        <div class="w-44 h-12 left-[126px] top-[34.90px] absolute">
+                            <div class="w-44 h-12 left-0 top-0 absolute justify-center text-black text-lg font-bold font-['Helvetica_Neue'] capitalize leading-relaxed">Dompet hilang di Ruang 407 FST</div>
+                        </div>
+                        <div class="px-[3px] left-[124px] top-[97px] absolute inline-flex justify-center items-center gap-2.5">
+                            <div class="justify-center text-black/70 text-xs font-normal font-['Helvetica_Neue'] uppercase">27 August 2024</div>
+                        </div>
+                    </div>
+                    <div class="w-80 h-36 left-0 top-[168px] absolute border-b border-black">
+                        <div class="w-28 h-28 left-0 top-0 absolute overflow-hidden">
+                            <div class="w-28 h-28 left-0 top-0 absolute">
+                                <img class="w-28 h-28 left-0 top-0 absolute" src="https://placehold.co/110x110" />
+                            </div>
+                        </div>
+                        <div class="w-24 py-[5px] left-[124px] top-[9px] absolute rounded-[3px] inline-flex justify-center items-center gap-2.5">
+                            <div class="w-24 justify-center text-black/70 text-xs font-medium font-['Helvetica_Neue'] uppercase leading-3">Kehilangan</div>
+                        </div>
+                        <div class="w-44 h-12 left-[126px] top-[34.90px] absolute">
+                            <div class="w-44 h-12 left-0 top-0 absolute justify-center text-black text-lg font-bold font-['Helvetica_Neue'] capitalize leading-relaxed">Jam Tangan hilang di tempat wudhu</div>
+                        </div>
+                        <div class="px-[3px] left-[124px] top-[97px] absolute inline-flex justify-center items-center gap-2.5">
+                            <div class="justify-center text-black/70 text-xs font-normal font-['Helvetica_Neue'] uppercase">27 August 2024</div>
+                        </div>
+                    </div>
+                    <div class="w-80 h-36 left-0 top-[336px] absolute border-b border-black">
+                        <div class="w-28 h-28 left-0 top-0 absolute overflow-hidden">
+                            <div class="w-28 h-28 left-0 top-0 absolute">
+                                <img class="w-28 h-28 left-0 top-0 absolute" src="https://placehold.co/110x110" />
+                            </div>
+                        </div>
+                        <div class="w-24 py-[5px] left-[124px] top-[9px] absolute rounded-[3px] inline-flex justify-center items-center gap-2.5">
+                            <div class="w-24 justify-center text-black/70 text-xs font-medium font-['Helvetica_Neue'] uppercase leading-3">Kehilangan</div>
+                        </div>
+                        <div class="w-44 h-12 left-[126px] top-[34.90px] absolute">
+                            <div class="w-44 h-12 left-0 top-0 absolute justify-center text-black text-lg font-bold font-['Helvetica_Neue'] capitalize leading-relaxed">Kunci Motor hilang di parkiran cH</div>
+                        </div>
+                        <div class="px-[3px] left-[124px] top-[97px] absolute inline-flex justify-center items-center gap-2.5">
+                            <div class="justify-center text-black/70 text-xs font-normal font-['Helvetica_Neue'] uppercase">27 August 2024</div>
+                        </div>
+                    </div>
+                    <div class="w-80 h-36 left-0 top-[504px] absolute border-b border-black">
+                        <div class="w-28 h-28 left-0 top-0 absolute overflow-hidden">
+                            <div class="w-28 h-28 left-0 top-0 absolute">
+                                <img class="w-28 h-28 left-0 top-0 absolute" src="https://placehold.co/110x110" />
+                            </div>
+                        </div>
+                        <div class="w-24 py-[5px] left-[124px] top-[9px] absolute rounded-[3px] inline-flex justify-center items-center gap-2.5">
+                            <div class="w-24 justify-center text-black/70 text-xs font-medium font-['Helvetica_Neue'] uppercase leading-3">Kehilangan</div>
+                        </div>
+                        <div class="w-44 h-12 left-[126px] top-[34.90px] absolute">
+                            <div class="w-44 h-12 left-0 top-0 absolute justify-center text-black text-lg font-bold font-['Helvetica_Neue'] capitalize leading-relaxed">Helm hilang di Parkiran GKT</div>
+                        </div>
+                        <div class="px-[3px] left-[124px] top-[97px] absolute inline-flex justify-center items-center gap-2.5">
+                            <div class="justify-center text-black/70 text-xs font-normal font-['Helvetica_Neue'] uppercase">27 August 2024</div>
+                        </div>
+                    </div>
+                    <div class="w-80 h-36 left-0 top-[672px] absolute">
+                        <div class="w-28 h-28 left-0 top-0 absolute overflow-hidden">
+                            <div class="w-28 h-28 left-0 top-0 absolute">
+                                <img class="w-28 h-28 left-0 top-0 absolute" src="https://placehold.co/110x110" />
+                            </div>
+                        </div>
+                        <div class="w-24 py-[5px] left-[127px] top-[10px] absolute rounded-[3px] inline-flex justify-center items-center gap-2.5">
+                            <div class="w-28 justify-center text-black/70 text-xs font-medium font-['Helvetica_Neue'] uppercase leading-3">perpustakaan</div>
+                        </div>
+                        <div class="w-44 h-12 left-[126px] top-[34.90px] absolute">
+                            <div class="w-44 h-12 left-0 top-[0.10px] absolute justify-center text-black text-lg font-bold font-['Helvetica_Neue'] capitalize leading-relaxed">Daftar Buku yang<br/>Belum dikembalikan</div>
+                        </div>
+                        <div class="px-[3px] left-[124px] top-[97px] absolute inline-flex justify-center items-center gap-2.5">
+                            <div class="justify-center text-black/70 text-xs font-normal font-['Helvetica_Neue'] uppercase">27 August 2024</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="w-[658px] h-96 left-[75px] top-[581px] absolute overflow-hidden">
+                <img class="w-[715px] h-96 left-[-57px] top-0 absolute" src="https://placehold.co/715x402" />
+            </div>
+            <div class="w-[630px] h-56 left-[774px] top-[708px] absolute justify-start text-zinc-800 text-xl font-normal font-['Helvetica_Neue'] leading-loose">Lorem ipsum dolor sit amet consectetur. Mattis leo aliquet nunc justo id condimentum interdum. Venenatis cras ut pretium risus et. Laoreet imperdiet sit id facilisi feugiat amet. Mi id amet ac turpis tortor bibendum eget tristique parturient. Tincidunt odio eget lacus egestas. Placerat augue turpis phasellus pretium. Quisque in orci eget blandit. Sapien ac ultrices vulputate a. Volutpat amet quam lectus augue interdum sed nisi lobortis. Ultrices suspendisse a id laoreet. Orci.</div>
+            <div class="w-[630px] h-24 left-[774px] top-[581px] absolute justify-start text-black text-4xl font-medium font-['Helvetica_Neue'] leading-[50px]">Lorem ipsum dolor sit amet mattis leo aliquet nunc venenatis tortor</div>
+            <div class="left-[776px] top-[684px] absolute inline-flex justify-start items-center gap-3">
+                <div class="justify-start text-black/70 text-xs font-normal font-['Helvetica_Neue'] leading-none">By Author</div>
+                <div class="w-3 h-0 origin-top-left rotate-90 outline outline-1 outline-offset-[-0.50px] outline-black/70"></div>
+                <div class="justify-start text-black/70 text-xs font-normal font-['Helvetica_Neue'] leading-none">30 April 2025</div>
+                <div class="w-3 h-0 origin-top-left rotate-90 outline outline-1 outline-offset-[-0.50px] outline-black/70"></div>
+                <div class="justify-start text-black/70 text-xs font-normal font-['Helvetica_Neue'] leading-none">Campus</div>
+            </div>
+            <div class="left-[1321px] top-[971px] absolute justify-start text-zinc-800 text-base font-normal font-['Helvetica_Neue'] leading-none">Read more...</div>
+        </div>
+        <div class="w-[658px] h-96 left-[76px] top-[2075px] absolute overflow-hidden">
+            <img class="w-[751px] h-96 left-[-66px] top-0 absolute" src="https://placehold.co/751x422" />
+        </div>
+        <div class="w-[630px] h-56 left-[775px] top-[2202px] absolute justify-start text-zinc-800 text-xl font-normal font-['Helvetica_Neue'] leading-loose">Lorem ipsum dolor sit amet consectetur. Egestas amet semper malesuada euismod ut amet. Nunc semper nisl gravida leo quis nec aliquam. Turpis lectus sapien laoreet nibh. Ornare arcu pretium volutpat hac lacus diam pulvinar. Leo facilisis malesuada tincidunt ultricies donec. Vulputate convallis arcu eget quam mi pharetra. Tortor dis duis adipiscing massa. Nunc semper nisl gravida leo quis nec aliquam</div>
+        <div class="w-[630px] h-24 left-[775px] top-[2075px] absolute justify-start text-black text-4xl font-medium font-['Helvetica_Neue'] leading-[50px]">Lorem Ipsum Condimentum Molestie Lacus Nunc Vitae Scelerisque</div>
+        <div class="left-[777px] top-[2178px] absolute inline-flex justify-start items-center gap-3">
+            <div class="justify-start text-black/70 text-xs font-normal font-['Helvetica_Neue'] leading-none">By Author</div>
+            <div class="w-3 h-0 origin-top-left rotate-90 outline outline-1 outline-offset-[-0.50px] outline-black/70"></div>
+            <div class="justify-start text-black/70 text-xs font-normal font-['Helvetica_Neue'] leading-none">30 April 2025</div>
+            <div class="w-3 h-0 origin-top-left rotate-90 outline outline-1 outline-offset-[-0.50px] outline-black/70"></div>
+            <div class="justify-start text-black/70 text-xs font-normal font-['Helvetica_Neue'] leading-none">Campus</div>
+        </div>
+        <div class="left-[1322px] top-[2465px] absolute justify-start text-zinc-800 text-base font-normal font-['Helvetica_Neue'] leading-none">Read more...</div>
+        <div class="w-[1920px] h-[478px] left-0 top-[3045px] absolute bg-black overflow-hidden">
+            <div class="w-64 h-28 left-[315px] top-[190px] absolute justify-center text-slate-300 text-base font-normal font-['Inter'] capitalize leading-7">Lorem ipsum dolor sit amet consectetur. Ac mauris ullamcorper sed in vulputate mauris et velit. Mattis nisi.</div>
+            <div class="w-48 h-11 left-[645px] top-[120px] absolute">
+                <div class="w-8 h-[5px] left-0 top-[39px] absolute">
+                    <div class="w-8 h-[5px] left-0 top-0 absolute overflow-hidden">
+                        <div class="w-8 h-[5px] left-0 top-0 absolute bg-black"></div>
+                    </div>
+                    <div class="w-8 h-[5px] left-0 top-0 absolute bg-white"></div>
+                </div>
+                <div class="w-24 h-6 left-0 top-[-0.50px] absolute justify-center text-white text-xl font-extrabold font-['Manrope'] capitalize leading-normal">Company</div>
+            </div>
+            <div class="w-48 h-44 left-[645px] top-[184px] absolute">
+                <div class="w-16 h-7 left-0 top-[1.38px] absolute">
+                    <div class="w-16 h-7 left-0 top-0 absolute justify-center text-slate-300 text-base font-medium font-['Inter'] capitalize leading-relaxed">About Us</div>
+                </div>
+                <div class="w-32 h-7 left-0 top-[37.62px] absolute">
+                    <div class="w-32 h-7 left-0 top-0 absolute justify-center text-slate-300 text-base font-medium font-['Inter'] capitalize leading-relaxed">Jobs</div>
+                </div>
+                <div class="w-14 h-7 left-0 top-[73.88px] absolute">
+                    <div class="w-14 h-7 left-0 top-0 absolute justify-center text-slate-300 text-base font-medium font-['Inter'] capitalize leading-relaxed">Events</div>
+                </div>
+                <div class="w-12 h-7 left-0 top-[110.12px] absolute"></div>
+            </div>
+            <div class="w-60 h-11 left-[920px] top-[120px] absolute">
+                <div class="w-8 h-[5px] left-0 top-[39px] absolute">
+                    <div class="w-8 h-[5px] left-0 top-0 absolute overflow-hidden">
+                        <div class="w-8 h-[5px] left-0 top-0 absolute bg-black"></div>
+                    </div>
+                    <div class="w-8 h-[5px] left-0 top-0 absolute bg-white"></div>
+                </div>
+                <div class="w-20 h-6 left-0 top-[-0.50px] absolute justify-center text-white text-xl font-extrabold font-['Manrope'] capitalize leading-normal">Get Help</div>
+            </div>
+            <div class="w-60 h-44 left-[920px] top-[184px] absolute">
+                <div class="w-24 h-7 left-0 top-[1.38px] absolute">
+                    <div class="w-24 h-7 left-0 top-0 absolute justify-center text-slate-300 text-base font-medium font-['Inter'] capitalize leading-relaxed">Contact & Faq</div>
+                </div>
+                <div class="w-28 h-7 left-0 top-[37.62px] absolute">
+                    <div class="w-28 h-7 left-0 top-0 absolute justify-center text-slate-300 text-base font-medium font-['Inter'] capitalize leading-relaxed">Oders & Returns</div>
+                </div>
+                <div class="w-20 h-7 left-0 top-[73.88px] absolute">
+                    <div class="w-20 h-7 left-0 top-0 absolute justify-center text-slate-300 text-base font-medium font-['Inter'] capitalize leading-relaxed">Gift Cards</div>
+                </div>
+                <div class="w-14 h-7 left-0 top-[110.12px] absolute">
+                    <div class="w-14 h-7 left-0 top-0 absolute justify-center text-slate-300 text-base font-medium font-['Inter'] capitalize leading-relaxed">Register</div>
+                </div>
+                <div class="w-14 h-7 left-0 top-[146.38px] absolute">
+                    <div class="w-14 h-7 left-0 top-0 absolute justify-center text-slate-300 text-base font-medium font-['Inter'] capitalize leading-relaxed">Catalog</div>
+                </div>
+            </div>
+            <div class="w-48 h-11 left-[1195px] top-[120px] absolute">
+                <div class="w-8 h-[5px] left-0 top-[39px] absolute">
+                    <div class="w-8 h-[5px] left-0 top-0 absolute overflow-hidden">
+                        <div class="w-8 h-[5px] left-0 top-0 absolute bg-black"></div>
+                    </div>
+                    <div class="w-8 h-[5px] left-0 top-0 absolute bg-white"></div>
+                </div>
+                <div class="w-20 h-6 left-0 top-[-0.50px] absolute justify-center text-white text-xl font-extrabold font-['Manrope'] capitalize leading-normal">Explore</div>
+            </div>
+            <div class="w-48 h-44 left-[1195px] top-[184px] absolute">
+                <div class="w-16 h-7 left-0 top-[1.38px] absolute">
+                    <div class="w-16 h-7 left-0 top-0 absolute justify-center text-slate-300 text-base font-medium font-['Inter'] capitalize leading-relaxed">Home</div>
+                </div>
+                <div class="w-14 h-7 left-0 top-[37.62px] absolute">
+                    <div class="w-16 h-6 left-0 top-[0.38px] absolute justify-center text-slate-300 text-base font-medium font-['Inter'] capitalize leading-relaxed">Campus</div>
+                </div>
+                <div class="w-9 h-7 left-0 top-[73.88px] absolute">
+                    <div class="w-12 h-6 left-0 top-[0.12px] absolute justify-center text-slate-300 text-base font-medium font-['Inter'] capitalize leading-relaxed">Event</div>
+                </div>
+                <div class="w-11 h-7 left-0 top-[110.12px] absolute">
+                    <div class="w-11 h-7 left-0 top-0 absolute justify-center text-slate-300 text-base font-medium font-['Inter'] capitalize leading-relaxed">Info</div>
+                </div>
+                <div class="w-12 h-7 left-0 top-[146.38px] absolute">
+                    <div class="w-12 h-7 left-0 top-0 absolute justify-center text-slate-300 text-base font-medium font-['Inter'] capitalize leading-relaxed">Search</div>
+                </div>
+            </div>
+            <div class="w-48 h-11 left-[1415px] top-[120px] absolute">
+                <div class="w-8 h-[5px] left-0 top-[39px] absolute">
+                    <div class="w-8 h-[5px] left-0 top-0 absolute overflow-hidden">
+                        <div class="w-8 h-[5px] left-0 top-0 absolute bg-black"></div>
+                    </div>
+                    <div class="w-8 h-[5px] left-0 top-0 absolute bg-white"></div>
+                </div>
+                <div class="w-32 h-6 left-0 top-[-0.50px] absolute justify-center text-white text-xl font-extrabold font-['Manrope'] capitalize leading-normal">Follow us On</div>
+            </div>
+            <div class="w-48 h-44 left-[1415px] top-[184px] absolute">
+                <div class="w-16 h-7 left-0 top-[1.38px] absolute">
+                    <div class="w-16 h-7 left-0 top-0 absolute justify-center text-slate-300 text-base font-medium font-['Inter'] capitalize leading-relaxed">facebook</div>
+                </div>
+                <div class="w-12 h-7 left-0 top-[37.62px] absolute">
+                    <div class="w-12 h-7 left-0 top-0 absolute justify-center text-slate-300 text-base font-medium font-['Inter'] capitalize leading-relaxed">Twitter</div>
+                </div>
+                <div class="w-16 h-7 left-0 top-[73.88px] absolute">
+                    <div class="w-20 h-7 left-0 top-0 absolute justify-center text-slate-300 text-base font-medium font-['Inter'] capitalize leading-relaxed">Instagram</div>
+                </div>
+                <div class="w-14 h-7 left-0 top-[110.12px] absolute">
+                    <div class="w-14 h-7 left-0 top-0 absolute justify-center text-slate-300 text-base font-medium font-['Inter'] capitalize leading-relaxed">Youtube</div>
+                </div>
+            </div>
+            <div class="left-[315px] top-[131px] absolute justify-start text-white text-3xl font-black font-['Inter']">SUKANEWS</div>
+        </div>
+    </div>
+</body>
+</html>
