@@ -6,8 +6,8 @@ SukaNews adalah portal berita kampus yang menyediakan informasi terbaru seputar 
 
 - **Project Management:** Sultan Muhammad Rafli
 - **Desainer:** Ahmad Huda Wattuqa
-- **Front-End Developer:** Faris Jihadi Hanif Lubis
-- **Back-End Developer:** Arbath Abdurrahman
+- **Quality Assurance:** Faris Jihadi Hanif Lubis
+- **Developer:** Arbath Abdurrahman
 
 ## Fitur Utama
 - Berita terkini seputar kampus
@@ -40,16 +40,21 @@ SukaNews adalah portal berita kampus yang menyediakan informasi terbaru seputar 
 4. Instal dependensi:
    ```bash
    pip install -r requirements.txt
+   npm install
    ```
 5. Jalankan migrasi database:
    ```bash
    python manage.py migrate
    ```
-6. Jalankan server lokal:
+6. Build tailwind:
+   ```bash
+   npm run build
+   ```
+7. Jalankan server lokal:
    ```bash
    python manage.py runserver
    ```
-7. Akses aplikasi di browser dengan URL: `http://127.0.0.1:8000/`
+8. Akses aplikasi di browser dengan URL: `http://127.0.0.1:8000/`
 
 ## Kontribusi
 Kami terbuka terhadap kontribusi dari siapa saja. Jika ingin berkontribusi, silakan fork repository ini dan buat pull request.
