@@ -5,12 +5,12 @@
           <span class="text-lg font-bold">SUKANEWS</span>
         </div>
         <div class="flex items-center space-x-6">
-            <a href="#" class="text-sm hover:underline">Beranda</a>
-            <a href="#" class="text-sm hover:underline">Kampus</a>
-            <a href="#" class="text-sm hover:underline">Acara</a>
-            <a href="#" class="text-sm hover:underline">Info</a>
-            <a href="#" class="text-sm hover:underline">Cari</a>
-            <a href="#" class="bg-black text-white text-sm px-4 py-1 rounded-full">Login / Register</a>
+            <a href="{% url 'beranda' %}" class="text-sm hover:underline">Beranda</a>
+            <a href="{% url 'kampus' %}" class="text-sm hover:underline">Kampus</a>
+            <a href="{% url 'event' %}" class="text-sm hover:underline">Acara</a>
+            <a href="{% url 'info' %}" class="text-sm hover:underline">Info</a>
+            <a href="{% url 'read-article' %}" class="text-sm hover:underline">Cari</a>
+            <a href="{% url 'beranda' %}" class="bg-black text-white text-sm px-4 py-1 rounded-full">Login / Register</a>
         </div>
       </div>
     </div>

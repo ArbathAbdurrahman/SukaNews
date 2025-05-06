@@ -10,4 +10,5 @@ urlpatterns = [
     path('kampus/',kampus, name='kampus'),
     path('event/',event, name='event'),
     path('info/',info, name='info'),
+    path('read/',detail, name='read-article'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

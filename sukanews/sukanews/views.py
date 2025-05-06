@@ -20,3 +20,13 @@ def info(request):
         'nama': 'Info'
     }
     return render(request,'info.html', context)
+def acara(request):
+    context = {
+        'nama': 'acara'
+    }
+    return render(request,'acara.html', context)
+def detail(request):
+    context = {
+        'nama': 'detail'
+    }
+    return render(request,'detail.html', context)
