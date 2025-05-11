@@ -11,4 +11,7 @@ urlpatterns = [
     path('event/',event, name='event'),
     path('info/',info, name='info'),
     path('read/',detail, name='read-article'),
+    path('login/',login_view, name='login'),
+    path('logout/',logout_view, name='logout'),
+    path('register/',register, name='register'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
