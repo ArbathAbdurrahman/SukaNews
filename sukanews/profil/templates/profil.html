@@ -5,7 +5,7 @@
     <!-- Profile Header -->
     <div class="flex items-center justify-between mb-6">
         <div class="flex items-center space-x-6">
-            {% if profile.profile_image %}
+            {% if profile.image %}
             <img src="{{ user.profile.image.url }}" alt="Profile Photo" class="w-32 h-32 object-cover rounded-full border shadow" />
             {% else %}
             <img src="{% static 'assets/images/ppdefault.png' %}" alt="Profile Photo" class="w-32 h-32 object-cover rounded-full border shadow" />

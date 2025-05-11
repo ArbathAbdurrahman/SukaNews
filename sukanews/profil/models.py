@@ -14,6 +14,7 @@ class Profile(models.Model):
     website = models.URLField(blank=True)
     description = models.CharField(max_length=255, blank=True)
     about = models.TextField(blank=True)
+    birth_date = models.DateField(null=True, blank=True)
 
     def __str__(self):
         return f'{self.user.username}'
