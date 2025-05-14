@@ -1,0 +1,77 @@
+{% extends 'snippets/base.html' %}
+{% block content %}
+<div class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md relative">
+        <!-- Close button in the top-right corner
+        <a href="{% url 'beranda' %}" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>
+        </a> -->
+        
+        <!-- Login Form -->
+        <div class="text-center mb-10 mt-6">
+            <h1 class="text-2xl font-bold">Join SukaNews.</h1>
+        </div>
+        
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="mb-4 p-3 bg-red-100 text-red-700 rounded">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            
+            <div class="mb-4">
+                <div class="flex items-center border-b border-gray-300 py-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                    <input type="text" name="username" id="id_username" placeholder="username" class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none" required>
+                </div>
+            </div>
+            
+            <div class="mb-6">
+                <div class="flex items-center border-b border-gray-300 py-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                    </svg>
+                    <input type="password" name="password" id="id_password" placeholder="password" class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none" required>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor" onclick="togglePasswordVisibility()">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                </div>
+            </div>
+            
+            <div class="mb-6">
+                <button type="submit" class="w-full bg-black text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                    Login
+                </button>
+            </div>
+            
+            <div class="text-center text-sm">
+                <p>Don't have an account? <a href="{% url 'register' %}" class="font-bold text-black">Create one</a></p>
+            </div>
+        </form>
+        
+        <div class="mt-10 text-center text-xs text-gray-600">
+            <p>Click "Sign up" to agree to SukaNews's <a href="#" class="underline">Terms of Service</a> and acknowledge that SukaNews's <a href="#" class="underline">Privacy Policy</a> applies to you.</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    function togglePasswordVisibility() {
+        const passwordInput = document.getElementById('id_password');
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+        } else {
+            passwordInput.type = 'password';
+        }
+    }
+</script>
+{% endblock content %}

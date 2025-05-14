@@ -1,0 +1,42 @@
+{% extends 'snippets/base.html' %}
+{% load static %}
+{% block content %}
+<div class="mt-4 mx-auto px-20 py-12 bg-white text-gray-800">
+    <!-- Profile Header -->
+    <div class="flex items-center justify-between mb-6">
+        <div class="flex items-center space-x-6">
+            {% if profile.image %}
+            <img src="{{ user.profile.image.url }}" alt="Profile Photo" class="w-32 h-32 object-cover rounded-full border shadow" />
+            {% else %}
+            <img src="{% static 'assets/images/ppdefault.png' %}" alt="Profile Photo" class="w-32 h-32 object-cover rounded-full border shadow" />
+            {% endif %}
+            <div>
+                <h1 class="text-3xl font-bold font-serif">{{ user.get_full_name }}</h1>
+                <p class="text-gray-500 mt-1">{{ user.profile.description }}</p>
+            </div>
+        </div>
+        <a href="{% url 'profil:edit_profile' request.user.username %}" class="px-4 py-2 bg-black text-white rounded-full text-sm hover:bg-gray-800">
+            Edit Profile
+        </a>
+    </div>
+    
+    <!-- Contact Info -->
+    <div class="mt-8 border-t pt-6">
+        <h2 class="font-semibold text-gray-800 mb-2">Contact</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 text-sm gap-y-2">
+            <p>{{ user.profile.phone }}</p>
+            <p>{{ user.email }}</p>
+            <p>{{ user.profile.website }}</p>
+        </div>
+    </div>
+    
+    <!-- About Me -->
+    <div class="mt-8 border-t pt-6">
+        <h2 class="font-semibold text-gray-800 mb-2">About Me</h2>
+        <p class="text-sm text-justify text-gray-700 leading-relaxed">
+            {{ user.profile.about }}
+        </p>
+    </div>
+</div>
+
+{% endblock content %}
