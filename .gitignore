@@ -1,2 +1,30 @@
+# # Tailwind CSS build files
+# /static/css/
+sukanews/static/css/output.css
+
+# Django cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Tailwind-related build cache files
+node_modules/
+
+# Log files
+*.log
+
+# # Local Django settings
+# settings_local.py
+
+# VSCode
+.vscode/
+
+# PyCharm
+.idea/
+
+# .env files with secret keys
+.secret_key
 .env
-venv
+
+media/
