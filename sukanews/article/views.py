@@ -200,4 +200,4 @@ def delete_article(request, slug):
     article = get_object_or_404(Article, slug=slug)
     if article.user == request.user:
         article.delete()
-    return redirect('article:article_manage',username=request.user.username)
+    return redirect('profil:profile',username=request.user.username)
