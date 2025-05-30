@@ -67,9 +67,9 @@ class CustomUserCreationForm(UserCreationForm):
 
 class CustomAuthenticationForm(AuthenticationForm):
     """
-    Custom authentication form that uses email instead of username
+    Custom authentication form that uses email instead of username gajadi
     """
-    username = forms.EmailField(
+    username = forms.CharField(
         max_length=254,
         required=True,
         widget=forms.TextInput(attrs={'placeholder': 'username'})

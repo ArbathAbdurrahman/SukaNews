@@ -18,6 +18,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'profil',
+    'article',
 ]
 
 # Middleware
@@ -98,3 +99,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default Primary Key
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+CORS_ALLOWED_ORIGINS = config("CORS_ALLOWED_ORIGINS", cast=Csv())
+CORS_ALLOW_CREDENTIALS = True
+CSRF_COOKIE_HTTPONLY = False
+CSRF_COOKIE_SECURE = False 
+CSRF_TRUSTED_ORIGINS = config("CSRF_TRUSTED_ORIGINS", cast=Csv())

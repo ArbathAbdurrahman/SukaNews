@@ -31,12 +31,33 @@
     </div>
     
     <!-- About Me -->
-    <div class="mt-8 border-t pt-6">
+    <div class="mt-8 border-t pt-6 mb-10">
         <h2 class="font-semibold text-gray-800 mb-2">About Me</h2>
         <p class="text-sm text-justify text-gray-700 leading-relaxed">
             {{ user.profile.about }}
         </p>
     </div>
+    <div class="mt-8 border-t-2 pt-6 mb-10">
+        {% include 'article_manage.html' %}
+    </div>
 </div>
 
 {% endblock content %}
+
+{% block script %}
+<script>
+    function toggleDropdown() {
+        const dropdown = document.getElementById("dropdownMenu");
+        dropdown.classList.toggle("hidden");
+    }
+    
+    // Optional: close dropdown when clicking outside
+    document.addEventListener("click", function (e) {
+        const button = document.getElementById("dropdownButton");
+        const menu = document.getElementById("dropdownMenu");
+        if (!button.contains(e.target) && !menu.contains(e.target)) {
+            menu.classList.add("hidden");
+        }
+    });
+</script>
+{% endblock script %}

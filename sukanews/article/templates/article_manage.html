@@ -1,0 +1,188 @@
+<!-- kotak artikel  -->
+<div class="bg-white dark:bg-gray-900">
+    <!-- Form Search and Filters -->
+    <form method="get" class="mb-6">
+        <!-- Search Input -->
+        <div class="grid grid-cols-4 gap-4">
+        <div class="col-span-4 md:col-span-2 relative">
+            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                </svg>
+            </div>
+            <input type="text" name="q" placeholder="Search Article..." value="{{ q }}"class="peer w-full bg-transparent text-black dark:text-white pl-10 pr-4 py-2 border-b border-gray-500 focus:outline-hidden focus:border-blue-500 placeholder-gray-500">
+        </div>
+        <!-- Sort By -->
+        <div class="col-span-4 md:col-span-2 grid grid-cols-4 md:grid-cols-2 gap-4">
+            <div class="col-span-2 md:col-span-1">
+                <select name="sort_by" class="peer w-full bg-transparent text-black dark:text-white pl-10 pr-4 py-2 border-b border-gray-500 focus:outline-hidden focus:border-blue-500 placeholder-gray-500">
+                    <option class="bg-gray-100 dark:bg-gray-700 text-black dark:text-white" value="newest" {% if sort_by == 'newest' %}selected{% endif %}>Newest</option>
+                    <option class="bg-gray-100 dark:bg-gray-700 text-black dark:text-white" value="oldest" {% if sort_by == 'oldest' %}selected{% endif %}>Oldest</option>
+                    <option class="bg-gray-100 dark:bg-gray-700 text-black dark:text-white" value="most_viewed" {% if sort_by == 'most_viewed' %}selected{% endif %}>Most Viewed</option>
+                    <option class="bg-gray-100 dark:bg-gray-700 text-black dark:text-white" value="least_viewed" {% if sort_by == 'least_viewed' %}selected{% endif %}>Least Viewed</option>
+                </select>
+            </div>
+            <div class="col-span-1">
+                <button type="submit" class="inline-flex items-center h-10 w-auto px-2 py-1 bg-gray-200 hover:bg-gray-300/30 dark:bg-white/25 dark:hover:bg-white/30 backdrop-blur-xs rounded-lg dark:text-white font-medium transition">
+                    Search
+                </button>
+            </div>
+        </div>
+        </div>
+    </form>
+
+    {% if messages %}
+        <div class="fixed w-full py-14 z-40">
+            {% for message in messages %}
+            <div id="dismiss-alert" class="hs-removing:translate-x-5 hs-removing:opacity-0 transition duration-300 
+                {% if 'success' in message.tags %}bg-green-50 border border-green-200 text-green-800 dark:bg-green-800/10 dark:border-green-900 dark:text-green-500
+                {% elif 'error' in message.tags %}bg-red-50 border border-red-200 text-red-800 dark:bg-red-800/10 dark:border-red-900 dark:text-red-500
+                {% else %}bg-yellow-50 border border-yellow-200 text-yellow-800 dark:bg-yellow-800/10 dark:border-yellow-900 dark:text-yellow-500
+                {% endif %} 
+                rounded-lg p-4" role="alert" tabindex="-1" aria-labelledby="hs-dismiss-button-label">
+                <div class="flex">
+                    <div class="shrink-0">
+                        <svg class="shrink-0 size-4 mt-0.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
+                            <path d="M12 8v4m0 4h.01"></path>
+                        </svg>
+                    </div>
+                    <div class="ms-2">
+                        <h3 id="hs-dismiss-button-label" class="text-sm font-medium">
+                            {{ message }}
+                        </h3>
+                    </div>
+                    <div class="ps-3 ms-auto">
+                        <div class="-mx-1.5 -my-1.5">
+                            <button type="button" class="inline-flex rounded-lg p-1.5 hover:bg-opacity-75 focus:outline-hidden" data-hs-remove-element="#dismiss-alert">
+                                <span class="sr-only">Dismiss</span>
+                                <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M18 6L6 18"></path>
+                                    <path d="M6 6l12 12"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+    <!-- Create button  -->
+    <div class="flex justify-end pb-5">
+        <div class="relative inline-block text-left">
+        <button id="dropdownButton" type="button"
+            class="inline-flex items-center h-8 w-auto px-2 py-1 bg-gray-200 hover:bg-gray-300/30 dark:bg-white/25 dark:hover:bg-white/30 backdrop-blur-xs rounded-lg dark:text-white font-medium transition"
+            onclick="toggleDropdown()">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+            </svg>
+            Create
+            <svg class="w-4 h-4 ml-1" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.25a.75.75 0 01-1.06 0L5.23 8.27a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+            </svg>
+        </button>
+
+        <!-- Dropdown menu -->
+        <div id="dropdownMenu"
+            class="hidden absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white dark:bg-gray-800 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+            <div class="py-1">
+            <a href="{% url 'article:create' %}" class="block px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600">Artikel</a>
+            <a href="{% url 'article:create' %}" class="block px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600">Event</a>
+            <a href="{% url 'article:create' %}" class="block px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600">Pengumuman</a>
+            </div>
+        </div>
+        </div>
+    </div>
+    <div class="overflow-x-auto rounded-md">
+        <table class="min-w-full table-fixed bg-white dark:bg-gray-900/30">
+            <thead>
+                <tr class="bg-gray-200 dark:bg-gray-700 dark:text-white uppercase text-sm leading-normal">
+                    <th class="py-3 px-2 text-left whitespace-normal break-words w-[10%] min-w-[60px]">No</th>
+                    <!-- Title 50% -->
+                    <th class="py-3 px-2 text-left whitespace-normal break-words w-1/2 min-w-[300px]">Title</th>
+                    <!-- Updated 20% -->
+                    <th class="py-3 px-2 text-center w-1/5 min-w-[150px]">Tipe</th>
+                    <th class="py-3 px-2 text-center w-1/5 min-w-[150px]">Updated</th>
+                    <!-- Views 15% -->
+                    <th class="py-3 px-2 text-center w-3/20 min-w-[100px]">Views</th>
+                    <!-- Action 15% -->
+                    <th class="py-3 px-2 text-center w-3/20 min-w-[100px]">Action</th>
+                </tr>
+            </thead>
+            <tbody class="text-gray-600 text-sm">
+                {% for article in articles %}
+                <tr class="border-b border-gray-500 text-black hover:bg-gray-100 dark:text-white dark:hover:bg-gray-600 transition-colors duration-200">
+                    <!-- Nomor -->
+                    <td class="py-3 px-2 text-left w-[10%] min-w-[60px]">
+                        {{ forloop.counter }}
+                    </td>
+                    <!-- Title -->
+                    <td class="py-3 px-2 text-left whitespace-normal break-words w-1/2 min-w-[300px]">
+                        {{ article.title|truncatechars:50 }}
+                    </td>
+                    <!-- Updated -->
+                    <td class="py-3 px-2 text-center w-1/5 min-w-[150px] font-light">
+                        {{ article.tipe }}
+                    </td>
+                    <!-- Updated -->
+                    <td class="py-3 px-2 text-center w-1/5 min-w-[150px] font-light">
+                        {{ article.updated_at|date:"d F Y" }}
+                    </td>
+                    <!-- Views -->
+                    <td class="py-3 px-2 text-center w-3/20 min-w-[100px]">
+                        <span class="bg-gray-200 dark:bg-gray-500 px-3 py-1 rounded-full text-xs">
+                            {{ article.views }}
+                        </span>
+                    </td>
+                    <!-- Action -->
+                    <td class="py-3 px-6 text-center w-3/20 min-w-[100px]">
+                        <div class="flex items-center justify-center gap-2">
+                            <a href="{% url 'article:detail' article.slug %}" class="w-4 transform hover:text-blue-500 hover:scale-110">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <a href="{% url 'article:update_article' article.slug %}" class="w-4 transform hover:text-green-500 hover:scale-110">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="{% url 'article:delete_article' article.slug %}" class="w-4 transform hover:text-red-500 hover:scale-110">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="text-center py-4 text-gray-500">
+                        No articles found.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <!-- Pagination -->
+        {% if page_obj.has_other_pages %}
+        <div class="mt-6">
+            <div class="pagination dark:text-white">
+                <span class="step-links">
+                    {% if page_obj.has_previous %}
+                        <a class="text-blue-500" href="?q={{ q }}&sort_by={{ sort_by }}&page=1">&laquo; First</a>
+                        <a class="text-blue-500" href="?q={{ q }}&sort_by={{ sort_by }}&page={{ page_obj.previous_page_number }}">&lsaquo; Prev</a>
+                    {% endif %}
+
+                    <span>
+                        | Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }} |
+                    </span>
+
+                    {% if page_obj.has_next %}
+                        <a class="text-blue-500" href="?q={{ q }}&sort_by={{ sort_by }}&page={{ page_obj.next_page_number }}">Next &rsaquo;</a>
+                        <a class="text-blue-500" href="?q={{ q }}&sort_by={{ sort_by }}&page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+        {% endif %}        
+    </div>    
+</div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">

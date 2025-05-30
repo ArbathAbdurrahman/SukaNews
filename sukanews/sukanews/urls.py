@@ -16,4 +16,6 @@ urlpatterns = [
     path('register/',register, name='register'),
 
     path('profile/', include('profil.urls')),
+    path('article/', include('article.urls')),
+    path('upload-image/', upload_image, name='upload_image'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

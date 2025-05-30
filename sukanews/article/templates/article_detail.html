@@ -1,0 +1,85 @@
+{% extends 'snippets/base.html' %}
+{% load static %}
+{% block content %}
+<div class="max-w-3xl mx-auto px-4 py-10">
+  <!-- Judul -->
+  <h1 class="text-2xl md:text-3xl font-semibold mb-2 leading-snug">
+    {{article.title}}
+  </h1>
+
+  <!-- Info Penulis -->
+  <div class="text-sm text-gray-500 mb-6 flex items-center space-x-2">
+    <span>👤 Author</span>
+    <span>•</span>
+    <span>04 Mei 2025</span>
+  </div>
+
+  <!-- Gambar -->
+    <div class="relative w-full" style="padding-top: 56.25%;">
+        <img 
+        class="absolute inset-0 w-full h-full object-cover object-center" 
+        src="{{ article.image.url }}" 
+        loading="lazy" 
+        alt="{{ article.title }}">
+    </div>
+
+  <!-- Konten -->
+  <div class="space-y-6 text-gray-800 leading-relaxed text-justify text-base">
+    {{article.content|safe}}
+  </div>
+
+  <!-- Komentar -->
+  <div class="mt-10">
+    <h3 class="text-lg font-medium mb-4">Comments</h3>
+
+    {% if user.is_authenticated %}
+    <form method="post" class="flex items-center gap-4 mb-6">
+      {% csrf_token %}
+      {{ form.content }}
+      <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">Send</button>
+    </form>
+    {% else %}
+      <p class="text-sm text-gray-500 py-4"><a href="{% url 'login' %}" class="text-blue-600 underline">Login  </a>to write a comment.</p>
+    {% endif %}
+
+    {% for comment in comments %}
+    <div class="mb-4 border-t pb-4">
+      <p class="text-sm font-semibold">{{ comment.user.username }} | <span class="text-gray-400 text-xs">{{ comment.created_at|date:"d M Y H:i" }}</span></p>
+      <p class="text-gray-800 mt-1">{{ comment.content }}</p>
+
+      <!-- Replies -->
+      {% for reply in comment.replies.all %}
+        <div class="ml-4 mt-2 text-sm border-l pl-2">
+          <p class="font-semibold">{{ reply.user.username }} <span class="text-gray-400 text-xs">{{ reply.created_at|date:"d M Y H:i" }}</span></p>
+          <p>{{ reply.content }}</p>
+        </div>
+      {% endfor %}
+
+      <!-- Balas -->
+      {% if user.is_authenticated %}
+      <form method="post" action="{% url 'article:reply_comment' comment.id %}" class="ml-4 mt-2 flex items-center gap-2">
+        {% csrf_token %}
+        <input type="text" name="content" placeholder="Reply..." class="w-full px-2 py-1 text-sm rounded border border-gray-300">
+        <button type="submit" class="text-xs px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">Reply</button>
+      </form>
+      {% endif %}
+    </div>
+    {% empty %}
+    <p class="text-gray-400">No comments yet.</p>
+    {% endfor %}
+  </div>
+</div>
+
+<section class="max-w-5xl mx-auto px-4">
+    <h2 class="text-2xl font-bold mb-6">Recommendations</h2>
+  
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      {% for related in related_articles %}
+      {% include 'part_related_article.html' %}
+      {% empty %}
+            <p class="text-gray-400 col-span-full text-center">No articles found.</p>
+      {% endfor %}
+    </div>
+  </section>
+  
+{% endblock content %}

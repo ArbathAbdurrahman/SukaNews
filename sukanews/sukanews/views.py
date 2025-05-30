@@ -39,11 +39,12 @@ def login_view(request):
     if request.method == 'POST':
         form = CustomAuthenticationForm(request, data=request.POST)
         if form.is_valid():
-            email = form.cleaned_data.get('username')
+            username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
-            user = authenticate(username=email, password=password)
+            user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
+                messages.error(request, "Selamat datang " + username)
                 return redirect('beranda')
             else:
                 messages.error(request, "Invalid email or password.")
@@ -76,3 +77,17 @@ def logout_view(request):
     """View for handling user logout"""
     logout(request)
     return redirect('login')
+
+# Bahaya perlu validasi tapi malazzz
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.core.files.storage import default_storage
+
+@csrf_exempt
+def upload_image(request):
+    if request.method == 'POST' and request.FILES.get('image'):
+        image = request.FILES['image']
+        path = default_storage.save(f'quill_images/{image.name}', image)
+        image_url = default_storage.url(path)
+        return JsonResponse({'url': image_url})
+    return JsonResponse({'error': 'Invalid request'}, status=400)

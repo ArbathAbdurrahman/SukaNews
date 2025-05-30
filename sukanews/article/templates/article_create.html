@@ -1,0 +1,299 @@
+{% extends 'snippets/base.html' %}
+{% load static %}
+{% block content %}
+<div class="container mx-auto dark:text-white px-4 py-24 bg-white dark:bg-gray-900">
+    <form method="POST" enctype="multipart/form-data" class="max-w-3xl mx-auto">
+        {% csrf_token %}
+        
+        <!-- Form Fields -->
+        <div class="space-y-6">
+            <!-- Title Field -->
+            <div class="form-group">
+                <label for="id_title" class="block mb-2 text-sm font-semibold text-gray-700 dark:text-gray-300">
+                    Title
+                </label>
+                {{ form.title }}
+                {% if form.title.errors %}
+                    <div class="text-red-500 text-sm mt-1">{{ form.title.errors }}</div>
+                {% endif %}
+            </div>
+
+            <!-- Description Field -->
+            <div class="form-group">
+                <label for="id_description" class="block mb-2 text-sm font-semibold text-gray-700 dark:text-gray-300">
+                    Description
+                </label>
+                {{ form.description }}
+                {% if form.description.errors %}
+                    <div class="text-red-500 text-sm mt-1">{{ form.description.errors }}</div>
+                {% endif %}
+            </div>
+
+            <!-- Category Field -->
+            <div class="form-group">
+                <label for="{{ form.category.id_for_label }}" class="block mb-2 text-sm font-semibold text-gray-700 dark:text-gray-300">
+                    Category
+                </label>
+                {{ form.category }}
+            </div>
+
+            <!-- Image Upload Field -->
+            <div class="form-group">
+                <p class="block mb-2 text-sm font-semibold text-gray-700 dark:text-gray-300">Image</p>
+                <div class="relative">
+                    <!-- Custom upload area -->
+                    <div class="image-upload-area relative flex flex-col items-center justify-center w-full min-h-[200px] border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 transition-colors duration-200">
+                        <!-- Upload Prompt -->
+                        <div class="flex flex-col items-center justify-center p-6" id="uploadPrompt">
+                            <svg class="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                      d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12">
+                                </path>
+                            </svg>
+                            <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                                <span class="font-semibold">Click to upload</span> or drag and drop
+                            </p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">JPG, JPEG, or PNG (MAX. 10MB)</p>
+                        </div>
+
+                        <!-- Image Preview -->
+                        <div id="previewContainer" class="hidden w-full p-4 text-center">
+                            <img id="imagePreview" class="max-h-48 mx-auto object-contain rounded-md" alt="Image preview">
+                            <button type="button" id="removeImage" 
+                                    class="mt-2 text-sm text-red-500 hover:text-red-700 transition-colors duration-200">
+                                Remove Image
+                            </button>
+                        </div>
+                        
+                        <!-- Hidden file input -->
+                        {{ form.image }}
+                    </div>
+                    {% if form.image.errors %}
+                        <div class="text-red-500 text-sm mt-1">{{ form.image.errors }}</div>
+                    {% endif %}
+                </div>
+            </div>
+
+
+            <!-- Content Field -->
+            <div class="form-group">
+                <label for="id_content" class="block mb-2 text-sm font-semibold text-gray-700 dark:text-gray-300">
+                    Content
+                </label>
+                <!-- Hidden input quil -->
+                <input type="hidden" name="content" id="content" value="{{ form.content.value|safe }}">
+
+                <!-- Quill editor container -->
+                <div id="quill-editor" style="height: 300px;"></div>
+                {% if form.content.errors %}
+                    <div class="text-red-500 text-sm mt-1">{{ form.content.errors }}</div>
+                {% endif %}
+            </div>
+
+            <!-- Hastags Field -->
+            <div class="form-group">
+                <label for="id_hashtags_input" class="block mb-2 text-sm font-semibold text-gray-700 dark:text-gray-300">
+                    Hashtags
+                </label>
+                {{ form.hashtags_input }}
+                {% if form.hashtags_input.errors %}
+                    <div class="text-red-500 text-sm mt-1">{{ form.hashtags_input.errors }}</div>
+                {% endif %}
+            </div>
+
+            <!-- Form Actions -->
+            <div class="flex justify-end space-x-4 mt-8 mb-10">
+                <a href="{% url 'profil:profile' request.user.username %}" 
+                   class="btn-secondary px-4 py-2 text-sm font-medium bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 transition-colors duration-200">
+                    Cancel
+                </a>
+                <button type="submit" 
+                        class="btn-primary px-4 py-2 text-sm font-medium bg-blue-500 text-white rounded-md hover:bg-blue-600 dark:bg-blue-700 dark:hover:bg-blue-800 transition-colors duration-200">
+                    Post
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock content %}
+{% block script %}
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Constants
+    const MAX_FILE_SIZE = 10 * 1024 * 1024;
+    
+    // DOM Elements
+    const elements = {
+        fileInput: document.querySelector('input[type="file"]'),
+        dropArea: document.querySelector('.image-upload-area'),
+        imagePreview: document.getElementById('imagePreview'),
+        previewContainer: document.getElementById('previewContainer'),
+        uploadPrompt: document.getElementById('uploadPrompt'),
+        removeButton: document.getElementById('removeImage')
+    };
+
+    // Validate all elements are found
+    if (!elements.fileInput || !elements.dropArea || !elements.imagePreview || 
+        !elements.previewContainer || !elements.uploadPrompt || !elements.removeButton) {
+        console.error('Some elements were not found');
+        return;
+    }
+
+    // Hide the original file input but keep it accessible
+    elements.fileInput.style.opacity = '0';
+    elements.fileInput.style.position = 'absolute';
+    elements.fileInput.style.pointerEvents = 'none';
+
+    // File Handling
+    function handleFile(file) {
+        if (!isValidFile(file)) return;
+        
+        const reader = new FileReader();
+        reader.onload = (e) => displayPreview(e.target.result);
+        reader.readAsDataURL(file);
+    }
+
+    function isValidFile(file) {
+        if (!file.type.match('image.*')) {
+            alert('Please upload an image file (JPG, JPEG or PNG)');
+            return false;
+        }
+        if (file.size > MAX_FILE_SIZE) {
+            alert('File size should not exceed 10MB');
+            return false;
+        }
+        return true;
+    }
+
+    function displayPreview(src) {
+        elements.imagePreview.src = src;
+        elements.previewContainer.classList.remove('hidden');
+        elements.uploadPrompt.classList.add('hidden');
+    }
+
+    // Event Listeners
+    function setupDragAndDrop() {
+        elements.dropArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            elements.dropArea.classList.add('border-blue-500', 'bg-blue-50', 'dark:bg-gray-700');
+        });
+
+        elements.dropArea.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            elements.dropArea.classList.remove('border-blue-500', 'bg-blue-50', 'dark:bg-gray-700');
+        });
+
+        elements.dropArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            elements.dropArea.classList.remove('border-blue-500', 'bg-blue-50', 'dark:bg-gray-700');
+            
+            if (e.dataTransfer.files.length) {
+                const file = e.dataTransfer.files[0];
+                handleFile(file);
+                
+                // Update the file input
+                const dataTransfer = new DataTransfer();
+                dataTransfer.items.add(file);
+                elements.fileInput.files = dataTransfer.files;
+            }
+        });
+
+        // Handle click on drop area
+        elements.dropArea.addEventListener('click', (e) => {
+            e.preventDefault();
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.onchange = (e) => {
+                if (e.target.files.length) {
+                    const file = e.target.files[0];
+                    handleFile(file);
+                    
+                    // Update the real file input
+                    const dataTransfer = new DataTransfer();
+                    dataTransfer.items.add(file);
+                    elements.fileInput.files = dataTransfer.files;
+                }
+            };
+            input.click();
+        });
+    }
+
+    function setupRemoveButton() {
+        elements.removeButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            elements.fileInput.value = '';
+            elements.previewContainer.classList.add('hidden');
+            elements.uploadPrompt.classList.remove('hidden');
+            elements.imagePreview.src = '';
+        });
+    }
+
+    // Initialize
+    setupDragAndDrop();
+    setupRemoveButton();
+});
+</script>
+<script>
+    // Inisialisasi Quill
+    var quill = new Quill('#quill-editor', {
+        theme: 'snow',
+        modules: {
+            toolbar: {
+                container: [
+                    [{ 'header': [1, 2, false] }],
+                    ['bold', 'italic', 'underline'],
+                    ['image', 'code-block']
+                ],
+                handlers: {
+                    image: imageHandler
+                }
+            }
+        }
+    });
+
+    // Custom handler untuk upload gambar
+    function imageHandler() {
+        const input = document.createElement('input');
+        input.setAttribute('type', 'file');
+        input.setAttribute('accept', 'image/*');
+        input.click();
+
+        input.onchange = async () => {
+            const file = input.files[0];
+            const formData = new FormData();
+            formData.append('image', file);
+
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+            const response = await fetch('/upload-image/', {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrfToken
+                },
+                body: formData
+            });
+
+            const data = await response.json();
+            const range = quill.getSelection();
+            quill.insertEmbed(range.index, 'image', data.url);
+        };
+    }
+
+    // Masukkan konten awal ke editor dari hidden input
+    const initialContent = document.getElementById('content').value;
+    if (initialContent) {
+        quill.root.innerHTML = initialContent;
+    }
+
+    // Sync isi editor ke input saat submit
+    document.querySelector('form').addEventListener('submit', function () {
+        document.getElementById('content').value = quill.root.innerHTML;
+    });
+</script>
+{% endblock script %}

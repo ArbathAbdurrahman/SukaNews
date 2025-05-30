@@ -1,0 +1,13 @@
+<a href="{% url 'article:detail' related.slug %}" class="space-y-3">
+    <div class="relative w-full" style="padding-top: 56.25%;">
+        <img class="absolute inset-0 w-full h-full object-cover object-center" src="{{ related.image.url }}" loading="lazy" alt="{{ related.title }}">
+    </div>
+    <div class="text-sm text-gray-500 space-x-4">
+        <span>{{related.category}} | {{related.updated_at|date:"d F Y"}}</span>
+    </div>
+    <h3 class="text-lg font-semibold">{{related.title}}</h3>
+    <p class="text-gray-700 text-sm">
+        The weird paradox of Schrödinger’s cat has found a lasting popularity. What does it mean for the future of quantum physics?
+    </p>
+    <p class="text-sm text-gray-800 font-medium">{{related.user.profile.get_full_name}}</p>
+</a>

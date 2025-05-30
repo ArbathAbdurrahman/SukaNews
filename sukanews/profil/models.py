@@ -16,6 +16,9 @@ class Profile(models.Model):
     about = models.TextField(blank=True)
     birth_date = models.DateField(null=True, blank=True)
 
+    def get_full_name(self):
+        return f"{self.user.first_name + ' ' + self.user.last_name}"
+
     def __str__(self):
         return f'{self.user.username}'
 

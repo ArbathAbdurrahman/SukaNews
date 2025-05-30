@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Suka News</title>
     <link rel="stylesheet" href="{% static 'css/output.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
 </head>
 <body>
     {% include 'snippets/navbar.html' %}
@@ -13,4 +14,7 @@
     {% endblock content %}
     {% include 'snippets/footer.html' %}
 </body>
+{% block script %}
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+{% endblock script %}
 </html>
