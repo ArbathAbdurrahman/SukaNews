@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from profil.models import Profile
 from article.models import Article
+from info.models import Info
+from event.models import Event
 from profil.forms import ProfileForm
 from django.db.models import Q
 from django.core.paginator import Paginator
@@ -14,43 +16,57 @@ SORT_OPTIONS = {
     'least_viewed': 'views',
 }
 
-def profile_view(request,username):
-    profile = get_object_or_404(Profile, user__username = username)
+def profile_view(request, username):
+    profile = get_object_or_404(Profile, user__username=username)
     if username != request.user.username:
-        return redirect('profil:profile',username)
-    # Get filter parameters with defaults
+        return redirect('profil:profile', username)
+
+    user = request.user
     filters = {
         'q': request.GET.get('q', ''),
         'sort_by': request.GET.get('sort_by', 'newest'),
     }
 
-    articles = Article.objects.filter(user__username=username)
-    
-    # Apply search filter
-    if filters['q']:
-        articles = articles.filter(
-            Q(title__icontains=filters['q']) |
-            Q(slug__icontains=filters['q'])
-        )
+    articlee = list(Article.objects.filter(user__username=username))
+    events = list(Event.objects.filter(author=user))
+    infos = list(Info.objects.filter(author=user))
 
-    # Apply sorting
-    sort_field = SORT_OPTIONS.get(filters['sort_by'], '-updated_at')
-    articles = articles.order_by(sort_field)
-    
-    # Apply distinct in case of duplicates from joins
-    articles = articles.distinct()
-    
+    for a in articlee:
+        a.content_type = 'article'
+    for e in events:
+        e.content_type = 'event'
+    for i in infos:
+        i.content_type = 'info'
+
+    # Gabungkan semua
+    articles = articlee + events + infos
+
+    # Filter manual (karena bukan QuerySet)
+    if filters['q']:
+        q = filters['q'].lower()
+        articles = [
+            item for item in articles
+            if q in item.title.lower() or q in item.slug.lower()
+        ]
+
+    # Sort manual
+    sort_key = '-updated_at' if filters['sort_by'] == 'newest' else 'updated_at'
+    reverse_sort = sort_key.startswith('-')
+    sort_attr = sort_key.lstrip('-')
+    articles.sort(key=lambda x: getattr(x, sort_attr, None), reverse=reverse_sort)
+
     # Pagination
     paginator = Paginator(articles, ARTICLES_PER_PAGE)
     page_obj = paginator.get_page(request.GET.get('page'))
-    
+
     context = {
         'profile': profile,
         'articles': page_obj,
-        **filters,  # Unpack filters into context
+        **filters,
         'page_obj': page_obj,
     }
     return render(request, 'profil.html', context)
+
 
 @login_required
 def edit_profile(request, username):

@@ -1,0 +1,267 @@
+{% extends 'snippets/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="bg-gray-50 dark:bg-gray-900 min-h-screen">
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <!-- Header -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-8">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-plus text-blue-600 dark:text-blue-400"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Create Info</h1>
+                    <p class="text-gray-600 dark:text-gray-400">Fill in the details to create a new information entry</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form -->
+        <form method="post" enctype="multipart/form-data" class="space-y-6">
+            {% csrf_token %}
+            
+            <!-- Basic Information -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+                <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-6 flex items-center">
+                    <i class="fas fa-info-circle mr-2 text-blue-600 dark:text-blue-400"></i>
+                    Basic Information
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Title -->
+                    <div class="md:col-span-2">
+                        <label for="{{ form.title.id_for_label }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            Title <span class="text-red-500">*</span>
+                        </label>
+                        {{ form.title }}
+                        {% if form.title.errors %}
+                            <div class="mt-1 text-sm text-red-600 dark:text-red-400">
+                                {{ form.title.errors.0 }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Description -->
+                    <div class="md:col-span-2">
+                        <label for="{{ form.description.id_for_label }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            Description <span class="text-red-500">*</span>
+                        </label>
+                        {{ form.description }}
+                        {% if form.description.errors %}
+                            <div class="mt-1 text-sm text-red-600 dark:text-red-400">
+                                {{ form.description.errors.0 }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Category -->
+                    <div>
+                        <label for="{{ form.category.id_for_label }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            Category <span class="text-red-500">*</span>
+                        </label>
+                        {{ form.category }}
+                        {% if form.category.errors %}
+                            <div class="mt-1 text-sm text-red-600 dark:text-red-400">
+                                {{ form.category.errors.0 }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Location -->
+                    <div>
+                        <label for="{{ form.location.id_for_label }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            Location
+                        </label>
+                        {{ form.location }}
+                        {% if form.location.errors %}
+                            <div class="mt-1 text-sm text-red-600 dark:text-red-400">
+                                {{ form.location.errors.0 }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Image Upload -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+                <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-6 flex items-center">
+                    <i class="fas fa-image mr-2 text-blue-600 dark:text-blue-400"></i>
+                    Image Upload
+                </h2>
+                
+                <div class="space-y-4">
+                    <label for="{{ form.image.id_for_label }}" class="block">
+                        <div class="relative border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center hover:border-blue-400 dark:hover:border-blue-500 transition-colors duration-200 cursor-pointer group">
+                            <div class="space-y-4">
+                                <div id="image-preview" class="hidden">
+                                    <div class="relative inline-block">
+                                        <img id="preview-img" class="w-32 h-32 object-cover rounded-lg border border-gray-300 dark:border-gray-600" alt="Preview">
+                                        <button type="button" id="remove-image" class="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full text-xs hover:bg-red-600 transition-colors duration-200 flex items-center justify-center">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <p class="text-lg font-medium text-gray-700 dark:text-gray-300">Click to upload image</p>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">PNG, JPG, GIF up to 10MB</p>
+                                </div>
+                            </div>
+                            {{ form.image }}
+                        </div>
+                    </label>
+                    
+                    {% if form.image.errors %}
+                        <div class="text-sm text-red-600 dark:text-red-400">
+                            {{ form.image.errors.0 }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Date & Time -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+                <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-6 flex items-center">
+                    <i class="fas fa-calendar-alt mr-2 text-blue-600 dark:text-blue-400"></i>
+                    Schedule
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Start Date -->
+                    <div>
+                        <label for="{{ form.date.id_for_label }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            Start Date
+                        </label>
+                        {{ form.date }}
+                        {% if form.date.errors %}
+                            <div class="mt-1 text-sm text-red-600 dark:text-red-400">
+                                {{ form.date.errors.0 }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Start Time -->
+                    <div>
+                        <label for="{{ form.time_start.id_for_label }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            Start Time
+                        </label>
+                        {{ form.time_start }}
+                        {% if form.time_start.errors %}
+                            <div class="mt-1 text-sm text-red-600 dark:text-red-400">
+                                {{ form.time_start.errors.0 }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- End Time -->
+                    <div>
+                        <label for="{{ form.time_end.id_for_label }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            End Time
+                        </label>
+                        {{ form.time_end }}
+                        {% if form.time_end.errors %}
+                            <div class="mt-1 text-sm text-red-600 dark:text-red-400">
+                                {{ form.time_end.errors.0 }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional Information -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+                <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-6 flex items-center">
+                    <i class="fas fa-link mr-2 text-blue-600 dark:text-blue-400"></i>
+                    Additional Information
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Contact -->
+                    <div>
+                        <label for="{{ form.contact.id_for_label }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            Contact Number
+                        </label>
+                        {{ form.contact }}
+                        {% if form.contact.errors %}
+                            <div class="mt-1 text-sm text-red-600 dark:text-red-400">
+                                {{ form.contact.errors.0 }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+                <div class="flex flex-col sm:flex-row gap-4 justify-end">
+                    <button type="button" onclick="history.back()" class="px-6 py-3 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors duration-200 font-medium">
+                        <i class="fas fa-times mr-2"></i>
+                        Cancel
+                    </button>
+                    <button type="submit" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors duration-200 font-medium shadow-lg hover:shadow-xl">
+                        <i class="fas fa-save mr-2"></i>
+                        Save Info
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock content %}
+{% block script %}
+<script>
+// Wait for DOM to load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get the actual Django form input (it will have an ID like 'id_image')
+            const imageInput = document.querySelector('input[type="file"]');
+            const imagePreview = document.getElementById('image-preview');
+            const previewImg = document.getElementById('preview-img');
+            const removeBtn = document.getElementById('remove-image');
+
+            if (imageInput) {
+                imageInput.addEventListener('change', function(e) {
+                    const file = e.target.files[0];
+                    if (file) {
+                        // Validate file type
+                        const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+                        if (!validTypes.includes(file.type)) {
+                            alert('Please select a valid image file (JPG, PNG, GIF)');
+                            e.target.value = '';
+                            return;
+                        }
+
+                        // Validate file size (10MB)
+                        if (file.size > 10 * 1024 * 1024) {
+                            alert('File size must be less than 10MB');
+                            e.target.value = '';
+                            return;
+                        }
+
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            previewImg.src = e.target.result;
+                            imagePreview.classList.remove('hidden');
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            }
+
+            if (removeBtn) {
+                removeBtn.addEventListener('click', function() {
+                    if (imageInput) {
+                        imageInput.value = '';
+                        imagePreview.classList.add('hidden');
+                        previewImg.src = '';
+                    }
+                });
+            }
+        });
+
+        // Dark mode toggle (optional)
+        function toggleDarkMode() {
+            document.documentElement.classList.toggle('dark');
+        }
+</script>
+{% endblock script %}

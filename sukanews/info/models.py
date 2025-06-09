@@ -8,7 +8,7 @@ from django.dispatch import receiver
 
 def user_directory_path(instance, filename):
     # File akan disimpan di MEDIA_ROOT/user_<id>/<filename>
-    return f'images/user_{instance.user.id}/{filename}'
+    return f'images/user_{instance.author.id}/{filename}'
 
 class Category(models.Model):
     name = models.CharField(max_length=50)
@@ -21,6 +21,9 @@ class Info(models.Model):
     title = models.CharField(max_length=255,db_index=True)
     description = models.TextField(max_length=500)
     location = models.CharField(max_length=255)
+    date = models.DateField()
+    time_start = models.TimeField()
+    time_end = models.TimeField()
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True,db_index=True)
     image = models.ImageField(upload_to=user_directory_path)
     slug = models.SlugField(max_length=255, unique=True, blank=True,db_index=True)
@@ -30,6 +33,7 @@ class Info(models.Model):
     done = models.BooleanField(default=False)
     status = models.BooleanField(default=False)
     contact = models.CharField(max_length=255)
+    tipe = models.CharField(max_length=20,default='Pengumuman')
 
     def save(self, *args, **kwargs):
         if not self.slug:  # Hanya buat slug jika belum ada
@@ -38,26 +42,29 @@ class Info(models.Model):
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('info:detail', kwargs={'slug': self.slug})
+        return reverse('info:detail_info', kwargs={'slug': self.slug})
 
     def __str__(self):
         return self.title
     
 
 class Comment(models.Model):
-    article = models.ForeignKey('Info', on_delete=models.CASCADE, related_name='comments')
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    name = models.CharField(max_length=100)  # Nama pengguna anonim
-    content = models.TextField()
+    info = models.ForeignKey(Info, on_delete=models.CASCADE, related_name='comments_info')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_comment_info')
+    content = models.TextField(max_length=300)
     created_at = models.DateTimeField(auto_now_add=True)
-    likes = models.PositiveBigIntegerField(default=0)  # Menyimpan jumlah like sebagai integer
-    parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE, related_name='replies')
 
     def __str__(self):
-        return f'{self.article} | {self.name}'
+        return f'Comment by {self.user} on {self.info}'
 
-    class Meta:
-        ordering = ['-created_at']
+class Reply(models.Model):
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name='replies_info')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_reply_comment_info')
+    content = models.TextField(max_length=300)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'Reply by {self.user} on comment {self.comment.id}'
 
 # Signal untuk menghapus file gambar ketika instance dihapus
 @receiver(pre_delete, sender=Info)

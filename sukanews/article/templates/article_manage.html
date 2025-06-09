@@ -1,5 +1,5 @@
 <!-- kotak artikel  -->
-<div class="bg-white dark:bg-gray-900">
+<div class="bg-white">
     <!-- Form Search and Filters -->
     <form method="get" class="mb-6">
         <!-- Search Input -->
@@ -16,10 +16,10 @@
         <div class="col-span-4 md:col-span-2 grid grid-cols-4 md:grid-cols-2 gap-4">
             <div class="col-span-2 md:col-span-1">
                 <select name="sort_by" class="peer w-full bg-transparent text-black dark:text-white pl-10 pr-4 py-2 border-b border-gray-500 focus:outline-hidden focus:border-blue-500 placeholder-gray-500">
-                    <option class="bg-gray-100 dark:bg-gray-700 text-black dark:text-white" value="newest" {% if sort_by == 'newest' %}selected{% endif %}>Newest</option>
-                    <option class="bg-gray-100 dark:bg-gray-700 text-black dark:text-white" value="oldest" {% if sort_by == 'oldest' %}selected{% endif %}>Oldest</option>
-                    <option class="bg-gray-100 dark:bg-gray-700 text-black dark:text-white" value="most_viewed" {% if sort_by == 'most_viewed' %}selected{% endif %}>Most Viewed</option>
-                    <option class="bg-gray-100 dark:bg-gray-700 text-black dark:text-white" value="least_viewed" {% if sort_by == 'least_viewed' %}selected{% endif %}>Least Viewed</option>
+                    <option class="bg-gray-100" value="newest" {% if sort_by == 'newest' %}selected{% endif %}>Newest</option>
+                    <option class="bg-gray-100" value="oldest" {% if sort_by == 'oldest' %}selected{% endif %}>Oldest</option>
+                    <option class="bg-gray-100" value="most_viewed" {% if sort_by == 'most_viewed' %}selected{% endif %}>Most Viewed</option>
+                    <option class="bg-gray-100" value="least_viewed" {% if sort_by == 'least_viewed' %}selected{% endif %}>Least Viewed</option>
                 </select>
             </div>
             <div class="col-span-1">
@@ -90,16 +90,16 @@
             class="hidden absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white dark:bg-gray-800 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
             <div class="py-1">
             <a href="{% url 'article:create' %}" class="block px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600">Artikel</a>
-            <a href="{% url 'article:create' %}" class="block px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600">Event</a>
-            <a href="{% url 'article:create' %}" class="block px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600">Pengumuman</a>
+            <a href="{% url 'event:create_event' %}" class="block px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600">Event</a>
+            <a href="{% url 'info:create_info' %}" class="block px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600">Pengumuman</a>
             </div>
         </div>
         </div>
     </div>
     <div class="overflow-x-auto rounded-md">
-        <table class="min-w-full table-fixed bg-white dark:bg-gray-900/30">
+        <table class="min-w-full table-fixed bg-white">
             <thead>
-                <tr class="bg-gray-200 dark:bg-gray-700 dark:text-white uppercase text-sm leading-normal">
+                <tr class="bg-gray-200 dark:text-white uppercase text-sm leading-normal">
                     <th class="py-3 px-2 text-left whitespace-normal break-words w-[10%] min-w-[60px]">No</th>
                     <!-- Title 50% -->
                     <th class="py-3 px-2 text-left whitespace-normal break-words w-1/2 min-w-[300px]">Title</th>
@@ -140,6 +140,7 @@
                     <!-- Action -->
                     <td class="py-3 px-6 text-center w-3/20 min-w-[100px]">
                         <div class="flex items-center justify-center gap-2">
+                            {% if article.tipe == 'Artikel' %}
                             <a href="{% url 'article:detail' article.slug %}" class="w-4 transform hover:text-blue-500 hover:scale-110">
                                 <i class="fas fa-eye"></i>
                             </a>
@@ -149,6 +150,27 @@
                             <a href="{% url 'article:delete_article' article.slug %}" class="w-4 transform hover:text-red-500 hover:scale-110">
                                 <i class="fas fa-trash"></i>
                             </a>
+                            {% elif article.tipe == 'Event' %}
+                            <a href="{% url 'event:detail_event' article.slug %}" class="w-4 transform hover:text-blue-500 hover:scale-110">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <a href="{% url 'event:update_event' article.slug %}" class="w-4 transform hover:text-green-500 hover:scale-110">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="{% url 'event:delete_event' article.slug %}" class="w-4 transform hover:text-red-500 hover:scale-110">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                            {% elif article.tipe == 'Pengumuman' %}
+                            <a href="{% url 'info:detail_info' article.slug %}" class="w-4 transform hover:text-blue-500 hover:scale-110">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <a href="{% url 'info:update_info' article.slug %}" class="w-4 transform hover:text-green-500 hover:scale-110">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="{% url 'info:delete_info' article.slug %}" class="w-4 transform hover:text-red-500 hover:scale-110">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                            {% endif %}
                         </div>
                     </td>
                 </tr>

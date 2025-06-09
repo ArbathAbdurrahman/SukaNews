@@ -1,0 +1,25 @@
+{% extends 'snippets/base.html' %}
+{% block content %}
+<main class="p-10">
+    <h2 class="text-2xl font-bold mb-6">Event</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {% for event in events %}
+            <a href="{% url 'event:detail_event' event.slug %}" class="bg-white rounded-lg shadow-md overflow-hidden">
+                <img src="{{event.image.url}}" alt="Outcast Event" class="w-full h-40 object-cover"/>
+                <div class="p-4">
+                    <h3 class="font-bold mb-1">{{ event.title }}</h3>
+                    <p class="text-gray-600 text-sm mb-2">{{event.date_start}} - {{event.date_end}}</p>
+                    <p class="text-gray-700 mb-4">{{event.location}}</p>
+                    <div class="flex items-center">
+                        <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center mr-2">
+                            <span class="text-white text-xs">QE</span>
+                        </div>
+                        <span class="text-sm text-gray-600">{{ event.author }}</span>
+                    </div>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+</main>
+
+{% endblock content %}
