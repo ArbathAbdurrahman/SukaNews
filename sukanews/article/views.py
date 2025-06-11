@@ -140,44 +140,6 @@ def create_article(request):
 
     return render(request, 'article_create.html', {'form': form})
 
-@login_required
-def manage_article(request, username):
-    if username != request.user.username:
-        return redirect('profil:profile',username)
-    # Get filter parameters with defaults
-    filters = {
-        'q': request.GET.get('q', ''),
-        'sort_by': request.GET.get('sort_by', 'newest'),
-    }
-
-    articles = Article.objects.filter(user__username=username)
-    
-    # Apply search filter
-    if filters['q']:
-        articles = articles.filter(
-            Q(title__icontains=filters['q']) |
-            Q(slug__icontains=filters['q'])
-        )
-
-    # Apply sorting
-    sort_field = SORT_OPTIONS.get(filters['sort_by'], '-updated_at')
-    articles = articles.order_by(sort_field)
-    
-    # Apply distinct in case of duplicates from joins
-    articles = articles.distinct()
-    
-    # Pagination
-    paginator = Paginator(articles, ARTICLES_PER_PAGE)
-    page_obj = paginator.get_page(request.GET.get('page'))
-    
-    context = {
-        'articles': page_obj,
-        **filters,  # Unpack filters into context
-        'page_obj': page_obj,
-    }
-    
-    return render(request, 'article_manage.html', context)
-
 # Update article
 @login_required
 def update_article(request, slug):
