@@ -15,6 +15,7 @@ class Profile(models.Model):
     description = models.CharField(max_length=255, blank=True)
     about = models.TextField(blank=True)
     birth_date = models.DateField(null=True, blank=True)
+    is_organization = models.BooleanField(default=False)
 
     def get_full_name(self):
         return f"{self.user.first_name + ' ' + self.user.last_name}"

@@ -1,0 +1,285 @@
+{% extends 'snippets/base.html' %}
+{% load static %}
+{% block content %}
+<div class="bg-gray-50 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header with Search Form -->
+        <div class="mb-8">
+            <div class="flex items-center justify-between mb-4">
+                <h1 class="text-3xl font-bold text-gray-800">Hasil Pencarian</h1>
+                <a href="{% url 'search_page' %}" class="text-blue-600 hover:text-blue-700 font-medium">
+                    ← Pencarian Baru
+                </a>
+            </div>
+
+            <!-- Compact Search Form -->
+            <form method="GET" action="{% url 'search_results' %}" class="bg-white rounded-lg shadow p-4">
+                <div class="flex flex-wrap gap-4 items-end">
+                    <div class="flex-1 min-w-64">
+                        <input 
+                            type="text" 
+                            name="q" 
+                            value="{{ search_query }}"
+                            placeholder="Kata kunci pencarian..."
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-700"
+                        >
+                    </div>
+                    <div>
+                        <select name="type" class="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-700">
+                            <option value="all" {% if selected_type == 'all' %}selected{% endif %}>Semua</option>
+                            <option value="article" {% if selected_type == 'article' %}selected{% endif %}>Artikel</option>
+                            <option value="event" {% if selected_type == 'event' %}selected{% endif %}>Event</option>
+                            <option value="info" {% if selected_type == 'info' %}selected{% endif %}>Pengumuman</option>
+                        </select>
+                    </div>
+                    <div>
+                        <select name="sort" class="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-700">
+                            <option value="-updated_at" {% if sort_by == '-updated_at' %}selected{% endif %}>Terbaru</option>
+                            <option value="updated_at" {% if sort_by == 'updated_at' %}selected{% endif %}>Terlama</option>
+                            <option value="-views" {% if sort_by == '-views' %}selected{% endif %}>Populer</option>
+                            <option value="views" {% if sort_by == 'views' %}selected{% endif %}>Kurang Populer</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="px-4 py-2 bg-black text-white rounded-md hover:bg-gray-700">
+                        Cari
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Search Results Summary -->
+        <div class="mb-6">
+            {% if has_results %}
+                <p class="text-gray-600">
+                    Ditemukan <span class="font-semibold text-gray-800">{{ total_results }}</span> hasil untuk 
+                    "<span class="font-semibold text-blue-600">{{ search_query }}</span>"
+                </p>
+            {% else %}
+                <div class="text-center py-12">
+                    <div class="text-gray-400 text-6xl mb-4">🔍</div>
+                    <h3 class="text-xl font-medium text-gray-700 mb-2">Tidak ada hasil ditemukan</h3>
+                    <p class="text-gray-500">Coba gunakan kata kunci yang berbeda atau ubah filter pencarian</p>
+                </div>
+            {% endif %}
+        </div>
+
+        {% if has_results %}
+            <!-- Articles Section -->
+            {% if articles %}
+                <section class="mb-12">
+                    <div class="flex items-center mb-6">
+                        <div class="bg-green-100 p-2 rounded-lg mr-3">
+                            <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
+                        </div>
+                        <h2 class="text-2xl font-bold text-gray-800">Artikel</h2>
+                        <span class="ml-3 px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium">
+                            {{ articles.paginator.count }} hasil
+                        </span>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {% for article in articles %}
+                            <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+                                {% if article.image %}
+                                    <img src="{{ article.image.url }}" alt="{{ article.title }}" class="w-full h-48 object-cover rounded-t-lg">
+                                {% else %}
+                                    <div class="w-full h-48 bg-gray-200 rounded-t-lg flex items-center justify-center">
+                                        <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                        </svg>
+                                    </div>
+                                {% endif %}
+                                <div class="p-4">
+                                    <h3 class="text-lg font-semibold text-gray-800 mb-2 line-clamp-2">{{ article.title }}</h3>
+                                    <p class="text-gray-600 text-sm mb-3 line-clamp-3">{{ article.description }}</p>
+                                    <div class="flex items-center justify-between text-xs text-gray-500">
+                                        <span>{{ article.user.username }}</span>
+                                        <span>{{ article.updated_at|date:"d M Y" }}</span>
+                                    </div>
+                                    <div class="flex items-center justify-between mt-2">
+                                        <span class="text-xs text-gray-500">{{ article.views }} views</span>
+                                        {% if article.category %}
+                                            <span class="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">{{ article.category.name }}</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </section>
+            {% endif %}
+
+            <!-- Events Section -->
+            {% if events %}
+                <section class="mb-12">
+                    <div class="flex items-center mb-6">
+                        <div class="bg-blue-100 p-2 rounded-lg mr-3">
+                            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                        </div>
+                        <h2 class="text-2xl font-bold text-gray-800">Event</h2>
+                        <span class="ml-3 px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
+                            {{ events.paginator.count }} hasil
+                        </span>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {% for event in events %}
+                            <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+                                {% if event.image %}
+                                    <img src="{{ event.image.url }}" alt="{{ event.title }}" class="w-full h-48 object-cover rounded-t-lg">
+                                {% else %}
+                                    <div class="w-full h-48 bg-gray-200 rounded-t-lg flex items-center justify-center">
+                                        <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                        </svg>
+                                    </div>
+                                {% endif %}
+                                <div class="p-4">
+                                    <h3 class="text-lg font-semibold text-gray-800 mb-2 line-clamp-2">{{ event.title }}</h3>
+                                    <p class="text-gray-600 text-sm mb-3 line-clamp-3">{{ event.description }}</p>
+                                    <div class="space-y-1 text-xs text-gray-500 mb-3">
+                                        <div class="flex items-center">
+                                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                            </svg>
+                                            {{ event.location }}
+                                        </div>
+                                        <div class="flex items-center">
+                                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                            </svg>
+                                            {{ event.date_start|date:"d M Y" }}
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center justify-between text-xs text-gray-500">
+                                        <span>{{ event.author.username }}</span>
+                                        <span>{{ event.updated_at|date:"d M Y" }}</span>
+                                    </div>
+                                    <div class="flex items-center justify-between mt-2">
+                                        <span class="text-xs text-gray-500">{{ event.views }} views</span>
+                                        {% if event.category %}
+                                            <span class="px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs">{{ event.category.name }}</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </section>
+            {% endif %}
+
+            <!-- Info Section -->
+            {% if infos %}
+                <section class="mb-12">
+                    <div class="flex items-center mb-6">
+                        <div class="bg-orange-100 p-2 rounded-lg mr-3">
+                            <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <h2 class="text-2xl font-bold text-gray-800">Pengumuman</h2>
+                        <span class="ml-3 px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-sm font-medium">
+                            {{ infos.paginator.count }} hasil
+                        </span>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {% for info in infos %}
+                            <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+                                {% if info.image %}
+                                    <img src="{{ info.image.url }}" alt="{{ info.title }}" class="w-full h-48 object-cover rounded-t-lg">
+                                {% else %}
+                                    <div class="w-full h-48 bg-gray-200 rounded-t-lg flex items-center justify-center">
+                                        <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                    </div>
+                                {% endif %}
+                                <div class="p-4">
+                                    <h3 class="text-lg font-semibold text-gray-800 mb-2 line-clamp-2">{{ info.title }}</h3>
+                                    <p class="text-gray-600 text-sm mb-3 line-clamp-3">{{ info.description }}</p>
+                                    <div class="space-y-1 text-xs text-gray-500 mb-3">
+                                        <div class="flex items-center">
+                                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                            </svg>
+                                            {{ info.location }}
+                                        </div>
+                                        <div class="flex items-center">
+                                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                            </svg>
+                                            {{ info.date|date:"d M Y" }}
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center justify-between text-xs text-gray-500">
+                                        <span>{{ info.author.username }}</span>
+                                        <span>{{ info.updated_at|date:"d M Y" }}</span>
+                                    </div>
+                                    <div class="flex items-center justify-between mt-2">
+                                        <span class="text-xs text-gray-500">{{ info.views }} views</span>
+                                        {% if info.category %}
+                                            <span class="px-2 py-1 bg-orange-100 text-orange-800 rounded text-xs">{{ info.category.name }}</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </section>
+            {% endif %}
+
+            <!-- Pagination -->
+            {% if articles.has_other_pages or events.has_other_pages or infos.has_other_pages %}
+                <div class="flex justify-center mt-8">
+                    <nav class="flex items-center space-x-2">
+                        {% if articles.has_previous or events.has_previous or infos.has_previous %}
+                            <a href="?q={{ search_query }}&type={{ selected_type }}&sort={{ sort_by }}&page={{ articles.previous_page_number }}" 
+                               class="px-3 py-2 text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50">
+                                Sebelumnya
+                            </a>
+                        {% endif %}
+
+                        {% for num in articles.paginator.page_range %}
+                            {% if num == articles.number %}
+                                <span class="px-3 py-2 text-white bg-blue-600 border border-blue-600 rounded-md">{{ num }}</span>
+                            {% elif num > articles.number|add:'-3' and num < articles.number|add:'3' %}
+                                <a href="?q={{ search_query }}&type={{ selected_type }}&sort={{ sort_by }}&page={{ num }}" 
+                                   class="px-3 py-2 text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50">{{ num }}</a>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if articles.has_next or events.has_next or infos.has_next %}
+                            <a href="?q={{ search_query }}&type={{ selected_type }}&sort={{ sort_by }}&page={{ articles.next_page_number }}" 
+                               class="px-3 py-2 text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50">
+                                Selanjutnya
+                            </a>
+                        {% endif %}
+                    </nav>
+                </div>
+            {% endif %}
+        {% endif %}
+    </div>
+
+    <style>
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .line-clamp-3 {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+    </style>
+</body>
+{% endblock content %}

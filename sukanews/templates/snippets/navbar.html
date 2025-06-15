@@ -9,7 +9,7 @@
             <a href="{% url 'article:article' %}" class="text-sm hover:underline">Kampus</a>
             <a href="{% url 'event:event' %}" class="text-sm hover:underline">Acara</a>
             <a href="{% url 'info:info' %}" class="text-sm hover:underline">Info</a>
-            <a href="#" class="text-sm hover:underline">Cari</a>
+            <a href="{% url 'search_page' %}" class="text-sm hover:underline">Cari</a>
             {% if user.is_authenticated %}
             <a href="{% url 'profil:profile' request.user.username %}" class="text-sm hover:underline">Profil</a>
             {% else %}

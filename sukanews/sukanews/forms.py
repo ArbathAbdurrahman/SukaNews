@@ -59,9 +59,17 @@ class CustomUserCreationForm(UserCreationForm):
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
+
+        # Validasi domain
+        if email and not email.endswith('@student.uin-suka.ac.id'):
+            raise forms.ValidationError("Gunakan email student @student.uin-suka.ac.id")
+
+        # Cek duplikat email
         if email and User.objects.filter(email=email).exists():
-            raise forms.ValidationError("This email is already registered")
+            raise forms.ValidationError("Email ini sudah terdaftar")
+
         return email
+
 
 
 

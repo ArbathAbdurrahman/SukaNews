@@ -5,7 +5,7 @@
    <header>
      <div class="relative mt-4 max-w-7xl mx-auto px-10">
        <div class="relative w-full h-[500px] overflow-hidden shadow-md">
-         <img src="{% static 'images/walppaper.jpg' %}" alt="Carousel Image"
+         <img src="{% static 'images/uin.png' %}" alt="Carousel Image"
          class="w-full h-full object-cover"/>
          
          <!-- Overlay Content -->
@@ -14,84 +14,38 @@
              Selamat datang di Kalijaga Posting
             </h2>
             <p class="mt-4 max-w-md text-sm text-gray-200">
-              disini kamu
+              Eksplorasi dan cari info menarik seputar kehidupan kampus UIN Sunan Kalijaga disini
             </p>
           </div>
         </div>
-        
-        <!-- Carousel indicators (optional) -->
-        <!-- <div class="flex justify-center space-x-2 mt-4">
-          <span class="w-2 h-2 bg-gray-400 rounded-full"></span>
-          <span class="w-2 h-2 bg-gray-300 rounded-full"></span>
-          <span class="w-2 h-2 bg-gray-300 rounded-full"></span>
-        </div> -->
         <br>
       </div>
     </header>
-      <section class="bg-black text-white h-screen px-6 py-12">
+      <section class="bg-black text-white px-6 py-12">
         <div class="max-w-7xl mx-auto">
       <!-- Header -->
       <div class="flex justify-between items-center mb-8">
         <h2 class="text-2xl font-semibold">Newest Stories</h2>
-        <a href="#" class="text-sm hover:underline">see all &gt;</a>
+        <a href="{% url 'article:article' %}" class="text-sm hover:underline">see all &gt;</a>
       </div>
   
       <!-- Card grid -->
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
         <!-- Card -->
+         {% for article in articles|slice:":4" %}
         <div class="flex flex-col">
-          <img src="{% static 'images/walppaper.jpg' %}" alt="story image" class="mb-4 w-full h-48 object-cover rounded-md"/>
+          <img src="{{article.image.url}}" alt="story image" class="mb-4 w-full h-48 object-cover rounded-md"/>
           <h3 class="text-md font-semibold leading-snug">
-            Lorem ipsum dolor sit amet consectetur. Blandit id turpis pretium id suscipit. Ele...
+            {{article.title}}
           </h3>
           <p class="text-sm text-gray-400 mt-2">
-            Lorem ipsum elementum mauris hac viverra cras arcu leo in tincidunt volutpat vitae pretium tempor.
+            {{article.description}}
           </p>
           <div class="mt-4 text-xs text-gray-400">
-            Event | <a href="#" class="underline hover:text-white">Read more...</a>
+            {{article.category}} | <a href="{% url 'article:detail' article.slug %}" class="underline hover:text-white">Read more...</a>
           </div>
         </div>
-  
-        <!-- Duplicate Card -->
-        <div class="flex flex-col">
-          <img src="{% static 'images/walppaper.jpg' %}" alt="story image" class="mb-4 w-full h-48 object-cover rounded-md"/>
-          <h3 class="text-md font-semibold leading-snug">
-            Lorem ipsum dolor sit amet consectetur. Blandit id turpis pretium id suscipit. Ele...
-          </h3>
-          <p class="text-sm text-gray-400 mt-2">
-            Lorem ipsum elementum mauris hac viverra cras arcu leo in tincidunt volutpat vitae pretium tempor.
-          </p>
-          <div class="mt-4 text-xs text-gray-400">
-            Event | <a href="#" class="underline hover:text-white">Read more...</a>
-          </div>
-        </div>
-  
-        <!-- Tambahkan 2 card lagi seperti di atas -->
-        <div class="flex flex-col">
-          <img src="{% static 'images/walppaper.jpg' %}" alt="story image" class="mb-4 w-full h-48 object-cover rounded-md"/>
-          <h3 class="text-md font-semibold leading-snug">
-            Lorem ipsum dolor sit amet consectetur. Blandit id turpis pretium id suscipit. Ele...
-          </h3>
-          <p class="text-sm text-gray-400 mt-2">
-            Lorem ipsum elementum mauris hac viverra cras arcu leo in tincidunt volutpat vitae pretium tempor.
-          </p>
-          <div class="mt-4 text-xs text-gray-400">
-            Event | <a href="#" class="underline hover:text-white">Read more...</a>
-          </div>
-        </div>
-  
-        <div class="flex flex-col">
-          <img src="{% static 'images/walppaper.jpg' %}" alt="story image" class="mb-4 w-full h-48 object-cover rounded-md"/>
-          <h3 class="text-md font-semibold leading-snug">
-            Lorem ipsum dolor sit amet consectetur. Blandit id turpis pretium id suscipit. Ele...
-          </h3>
-          <p class="text-sm text-gray-400 mt-2">
-            Lorem ipsum elementum mauris hac viverra cras arcu leo in tincidunt volutpat vitae pretium tempor.
-          </p>
-          <div class="mt-4 text-xs text-gray-400">
-            Event | <a href="#" class="underline hover:text-white">Read more...</a>
-          </div>
-        </div>
+        {% endfor %}
       </div>
     </div>
   </section>
@@ -103,28 +57,18 @@
         <h2 class="text-2xl font-semibold mb-6">Trending Stories</h2>
   
         <!-- Story Item -->
-        <div class="flex flex-col md:flex-row mb-10">
-          <img src="{% static 'images/walppaper.jpg' %}" alt="story" class="w-full md:w-1/2 h-64 object-cover rounded-md mb-4 md:mb-0 md:mr-6"/>
+         {% for articletop in articletops|slice:"2" %}
+        <a href="{% url 'article:detail' articletop.slug %}" class="flex flex-col md:flex-row mb-10">
+          <img src="{{articletop.image.url}}" alt="story" class="w-full md:w-1/2 h-64 object-cover rounded-md mb-4 md:mb-0 md:mr-6"/>
           <div>
-            <h3 class="text-xl font-semibold mb-2">Lorem Ipsum Condimentum Molestie Lacus Nunc Vitae Scelerisque</h3>
-            <div class="text-sm text-gray-500 mb-2">By Author | 30 April 2025 | Campus</div>
+            <h3 class="text-xl font-semibold mb-2">{{articletop.title}}</h3>
+            <div class="text-sm text-gray-500 mb-2">{{articletop.author}} | {{articletop.updated_at}} | {{articletop.category}}</div>
             <p class="text-gray-700">
-              Lorem ipsum dolor sit amet consectetur. Egestas amet semper malesuada euismod ut amet. Nunc semper nisl gravida leo quis nec aliquam...
+              {{articletop.description}}
             </p>
           </div>
-        </div>
-  
-        <!-- Story Item -->
-        <div class="flex flex-col md:flex-row">
-          <img src="{% static 'images/walppaper.jpg' %}" alt="story" class="w-full md:w-1/2 h-64 object-cover rounded-md mb-4 md:mb-0 md:mr-6"/>
-          <div>
-            <h3 class="text-xl font-semibold mb-2">Lorem ipsum dolor sit amet mattis leo aliquet nunc venenatis tortor aliquet nunc</h3>
-            <div class="text-sm text-gray-500 mb-2">By Author | 30 April 2025 | Campus</div>
-            <p class="text-gray-700">
-              Lorem ipsum dolor sit amet consectetur. Mattis leo aliquet nunc justo id condimentum interdum. Venanatis cras ut pretium risus et...
-            </p>
-          </div>
-        </div>
+        </a>
+        {% endfor %}
       </div>
   
       <!-- Breaking News Section -->
@@ -132,42 +76,16 @@
         <h2 class="text-xl font-semibold mb-6">Breaking News</h2>
         <div class="space-y-6">
           <!-- News Item -->
-          <div class="flex items-start space-x-4">
-            <img src="{% static 'images/walppaper.jpg' %}" alt="news" class="w-20 h-20 object-cover rounded-md"/>
+           {% for info in infos|slice:"6" %}
+          <a href="{% url 'info:detail_info' info.slug %}" class="flex items-start space-x-4">
+            <img src="{{info.image.url}}" alt="news" class="w-20 h-20 object-cover rounded-md"/>
             <div>
               <div class="text-xs text-gray-500 uppercase mb-1">Kehilangan</div>
-              <h4 class="font-semibold leading-tight">Dompet Hilang Di Ruang 407 FST</h4>
-              <div class="text-xs text-gray-500 mt-1">27 August 2024</div>
+              <h4 class="font-semibold leading-tight">{{info.title}}</h4>
+              <div class="text-xs text-gray-500 mt-1">{{info.updated_at}}</div>
             </div>
-          </div>
-  
-          <!-- Repeat as needed -->
-          <div class="flex items-start space-x-4">
-            <img src="{% static 'images/walppaper.jpg' %}" alt="news" class="w-20 h-20 object-cover rounded-md"/>
-            <div>
-              <div class="text-xs text-gray-500 uppercase mb-1">Kehilangan</div>
-              <h4 class="font-semibold leading-tight">Dompet Hilang Di Ruang 407 FST</h4>
-              <div class="text-xs text-gray-500 mt-1">27 August 2024</div>
-            </div>
-          </div>
-  
-          <div class="flex items-start space-x-4">
-            <img src="{% static 'images/walppaper.jpg' %}" alt="news" class="w-20 h-20 object-cover rounded-md"/>
-            <div>
-              <div class="text-xs text-gray-500 uppercase mb-1">Kehilangan</div>
-              <h4 class="font-semibold leading-tight">Dompet Hilang Di Ruang 407 FST</h4>
-              <div class="text-xs text-gray-500 mt-1">27 August 2024</div>
-            </div>
-          </div>
-  
-          <div class="flex items-start space-x-4">
-            <img src="{% static 'images/walppaper.jpg' %}" alt="news" class="w-20 h-20 object-cover rounded-md"/>
-            <div>
-              <div class="text-xs text-gray-500 uppercase mb-1">Kehilangan</div>
-              <h4 class="font-semibold leading-tight">Dompet Hilang Di Ruang 407 FST</h4>
-              <div class="text-xs text-gray-500 mt-1">27 August 2024</div>
-            </div>
-          </div>
+          </a>
+          {% endfor %}
         </div>
       </div>
     </div>

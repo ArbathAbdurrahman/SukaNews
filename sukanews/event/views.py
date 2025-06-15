@@ -5,6 +5,7 @@ from .forms import EventForm
 from .models import Event
 from django.contrib import messages
 from django.db.models import F
+from profil.models import Profile
 
 def event(request):
     event = Event.objects.all()
@@ -15,13 +16,19 @@ def event(request):
 
 @login_required
 def create_event(request):
+    # Validasi user bukan organisasi
+    profil = get_object_or_404(Profile, user=request.user)
+    if profil.is_organization == False:
+        messages.error(request, "Hanya akun organisasi yang dapat membuat event.")
+        return redirect('profil:profile', request.user.username)  # Ganti dengan halaman yang sesuai untuk user biasa
+
     if request.method == 'POST':
         form = EventForm(request.POST, request.FILES)
         if form.is_valid():
             event = form.save(commit=False)
             event.author = request.user
             event.save()
-            return redirect('event:detail_event',slug = event.slug)  # Ganti dengan nama URL tujuan
+            return redirect('event:detail_event', slug=event.slug)
     else:
         form = EventForm()
     return render(request, 'create_event.html', {'form': form})

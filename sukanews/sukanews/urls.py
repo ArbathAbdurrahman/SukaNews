@@ -14,5 +14,7 @@ urlpatterns = [
     path('article/', include('article.urls')),
     path('info/', include('info.urls')),
     path('event/', include('event.urls')),
+    path('search/', search_page, name='search_page'),
+    path('search_results/', search_results, name='search_results'),
     path('upload-image/', upload_image, name='upload_image'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

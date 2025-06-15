@@ -9,6 +9,179 @@
     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
 </head>
 <body>
+{% if messages %}
+  <div id="messages-container" class="fixed top-5 right-5 z-50 space-y-4">
+    {% for message in messages %}
+      <div class="message-popup max-w-sm w-full bg-white border-l-4 
+                  {% if message.tags == 'success' %}border-green-500{% elif message.tags == 'error' %}border-red-500{% elif message.tags == 'warning' %}border-yellow-500{% else %}border-blue-500{% endif %}
+                  shadow-lg rounded-lg p-4 transform transition-all duration-300 ease-out opacity-0 translate-x-full"
+           data-message-type="{{ message.tags }}">
+        
+        <!-- Content wrapper -->
+        <div class="flex items-start">
+          <!-- Icon -->
+          <div class="flex-shrink-0">
+            {% if message.tags == 'success' %}
+              <svg class="h-5 w-5 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+            {% elif message.tags == 'error' %}
+              <svg class="h-5 w-5 text-red-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+              </svg>
+            {% elif message.tags == 'warning' %}
+              <svg class="h-5 w-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+              </svg>
+            {% else %}
+              <svg class="h-5 w-5 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+              </svg>
+            {% endif %}
+          </div>
+          
+          <!-- Message content -->
+          <div class="ml-3 flex-1">
+            <p class="text-sm font-medium text-gray-900">
+              {% if message.tags == 'success' %}Berhasil!
+              {% elif message.tags == 'error' %}Error!
+              {% elif message.tags == 'warning' %}Peringatan!
+              {% else %}Informasi
+              {% endif %}
+            </p>
+            <p class="mt-1 text-sm text-gray-600">{{ message }}</p>
+          </div>
+          
+          <!-- Close button -->
+          <div class="ml-4 flex-shrink-0">
+            <button onclick="closeMessage(this)" 
+                    class="close-btn bg-white rounded-md inline-flex text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200 p-1">
+              <span class="sr-only">Tutup</span>
+              <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <script>
+    // Function untuk menutup message
+    function closeMessage(button) {
+      const messageDiv = button.closest('.message-popup');
+      messageDiv.classList.add('opacity-0', 'translate-x-full');
+      
+      setTimeout(() => {
+        messageDiv.remove();
+      }, 300);
+    }
+
+    // Function untuk menampilkan message dengan animasi
+    function showMessage(messageDiv) {
+      setTimeout(() => {
+        messageDiv.classList.remove('opacity-0', 'translate-x-full');
+        messageDiv.classList.add('opacity-100', 'translate-x-0');
+      }, 100);
+    }
+
+    // Function untuk auto close message
+    function autoCloseMessage(messageDiv, delay = 5000) {
+      setTimeout(() => {
+        if (messageDiv.parentNode) {
+          messageDiv.classList.add('opacity-0', 'translate-x-full');
+          setTimeout(() => {
+            if (messageDiv.parentNode) {
+              messageDiv.remove();
+            }
+          }, 300);
+        }
+      }, delay);
+    }
+
+    // Initialize messages ketika DOM loaded
+    document.addEventListener('DOMContentLoaded', function() {
+      const messages = document.querySelectorAll('.message-popup');
+      
+      messages.forEach((messageDiv, index) => {
+        // Show dengan delay untuk animasi berurutan
+        setTimeout(() => {
+          showMessage(messageDiv);
+        }, index * 100);
+        
+        // Auto close setelah 5 detik
+        autoCloseMessage(messageDiv, 5000);
+      });
+    });
+
+    // Optional: Function untuk menambah message baru via JavaScript
+    function addMessage(type, title, text) {
+      const container = document.getElementById('messages-container');
+      if (!container) return;
+
+      const messageTypes = {
+        success: {
+          borderColor: 'border-green-500',
+          iconColor: 'text-green-400',
+          icon: `<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>`,
+          title: title || 'Berhasil!'
+        },
+        error: {
+          borderColor: 'border-red-500',
+          iconColor: 'text-red-400',
+          icon: `<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>`,
+          title: title || 'Error!'
+        },
+        warning: {
+          borderColor: 'border-yellow-500',
+          iconColor: 'text-yellow-400',
+          icon: `<path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>`,
+          title: title || 'Peringatan!'
+        },
+        info: {
+          borderColor: 'border-blue-500',
+          iconColor: 'text-blue-400',
+          icon: `<path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>`,
+          title: title || 'Informasi'
+        }
+      };
+
+      const messageType = messageTypes[type] || messageTypes.info;
+
+      const messageHTML = `
+        <div class="message-popup max-w-sm w-full bg-white border-l-4 ${messageType.borderColor} shadow-lg rounded-lg p-4 transform transition-all duration-300 ease-out opacity-0 translate-x-full">
+          <div class="flex items-start">
+            <div class="flex-shrink-0">
+              <svg class="h-5 w-5 ${messageType.iconColor}" fill="currentColor" viewBox="0 0 20 20">
+                ${messageType.icon}
+              </svg>
+            </div>
+            <div class="ml-3 flex-1">
+              <p class="text-sm font-medium text-gray-900">${messageType.title}</p>
+              <p class="mt-1 text-sm text-gray-600">${text}</p>
+            </div>
+            <div class="ml-4 flex-shrink-0">
+              <button onclick="closeMessage(this)" class="close-btn bg-white rounded-md inline-flex text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200 p-1">
+                <span class="sr-only">Tutup</span>
+                <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+
+      container.insertAdjacentHTML('beforeend', messageHTML);
+      const newMessage = container.lastElementChild;
+      
+      showMessage(newMessage);
+      autoCloseMessage(newMessage, 5000);
+    }
+  </script>
+{% endif %}
+
     {% include 'snippets/navbar.html' %}
     {% block content %}
     {% endblock content %}

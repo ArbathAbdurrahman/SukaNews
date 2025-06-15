@@ -1,0 +1,114 @@
+{% extends 'snippets/base.html' %}
+{% load static %}
+{% block content %}
+<div class="bg-gray-50 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-gray-800 mb-2">Pencarian Konten</h1>
+            <p class="text-gray-600">Temukan artikel, event, dan pengumuman yang Anda cari</p>
+        </div>
+        
+        <!-- Search Form -->
+        <div class="max-w-4xl mx-auto">
+            <form method="GET" action="{% url 'search_results' %}" class="bg-white rounded-lg shadow-lg p-6">
+                <!-- Search Input -->
+                <div class="mb-6">
+                    <label for="search-input" class="block text-sm font-medium text-gray-700 mb-2">
+                        Kata Kunci Pencarian
+                    </label>
+                    <div class="relative">
+                        <input 
+                        type="text" 
+                        id="search-input"
+                        name="q" 
+                        value="{{ search_query }}"
+                        placeholder="Masukkan kata kunci pencarian..."
+                        class="w-full px-4 py-3 pl-10 pr-4 text-gray-700 bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-700 focus:border-transparent"
+                        required
+                        >
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Filters Row -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <!-- Content Type Filter -->
+                    <div>
+                        <label for="type-select" class="block text-sm font-medium text-gray-700 mb-2">
+                            Tipe Konten
+                        </label>
+                        <select 
+                        id="type-select"
+                        name="type" 
+                        class="w-full px-4 py-3 text-gray-700 bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-700 focus:border-transparent"
+                        >
+                        <option value="all" {% if selected_type == 'all' or not selected_type %}selected{% endif %}>Semua Tipe</option>
+                        <option value="article" {% if selected_type == 'article' %}selected{% endif %}>Artikel</option>
+                        <option value="event" {% if selected_type == 'event' %}selected{% endif %}>Event</option>
+                        <option value="info" {% if selected_type == 'info' %}selected{% endif %}>Pengumuman</option>
+                    </select>
+                </div>
+
+                    <!-- Sort By Filter -->
+                    <div>
+                        <label for="sort-select" class="block text-sm font-medium text-gray-700 mb-2">
+                            Urutkan Berdasarkan
+                        </label>
+                        <select 
+                        id="sort-select"
+                        name="sort" 
+                        class="w-full px-4 py-3 text-gray-700 bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-700 focus:border-transparent"
+                        >
+                        <option value="-updated_at" {% if sort_by == '-updated_at' or not sort_by %}selected{% endif %}>Terbaru</option>
+                        <option value="updated_at" {% if sort_by == 'updated_at' %}selected{% endif %}>Terlama</option>
+                        <option value="-views" {% if sort_by == '-views' %}selected{% endif %}>Paling Banyak Dilihat</option>
+                        <option value="views" {% if sort_by == 'views' %}selected{% endif %}>Paling Sedikit Dilihat</option>
+                        <option value="title" {% if sort_by == 'title' %}selected{% endif %}>Judul A-Z</option>
+                        <option value="-title" {% if sort_by == '-title' %}selected{% endif %}>Judul Z-A</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Search Button -->
+            <div class="flex justify-center">
+                <button 
+                type="submit" 
+                class="px-8 py-3 bg-black text-white font-medium rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-2 transition duration-200 ease-in-out transform hover:scale-105"
+                >
+                <svg class="inline-block w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+                Cari Sekarang
+            </button>
+        </div>
+    </form>
+</div>
+
+<!-- Tips Section -->
+<div class="max-w-4xl mx-auto mt-8">
+    <div class="bg-blue-50 rounded-lg p-6">
+        <h3 class="text-lg font-medium text-blue-900 mb-3">Tips Pencarian:</h3>
+        <ul class="text-blue-700 space-y-2">
+            <li class="flex items-start">
+                <span class="text-blue-500 mr-2">•</span>
+                Gunakan kata kunci yang spesifik untuk hasil yang lebih akurat
+            </li>
+            <li class="flex items-start">
+                <span class="text-blue-500 mr-2">•</span>
+                Filter berdasarkan tipe konten untuk mempersempit pencarian
+            </li>
+            <li class="flex items-start">
+                <span class="text-blue-500 mr-2">•</span>
+                Urutkan hasil berdasarkan preferensi Anda
+            </li>
+        </ul>
+    </div>
+</div>
+</div>
+</div>
+{% endblock content %}
