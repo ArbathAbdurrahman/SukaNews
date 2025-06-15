@@ -33,5 +33,5 @@ COPY --from=frontend /app/static/css ./static/css
 # Jalankan collectstatic
 RUN python manage.py collectstatic --noinput
 
-# Jalankan Gunicorn (ganti `project_name` dengan nama folder Django utama)
-CMD ["gunicorn", "sukanews.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "3"]
+# Jangan jalankan collectstatic di tahap build
+CMD ["sh", "-c", "python manage.py migrate && python manage.py collectstatic --noinput && gunicorn sukanews.wsgi:application --bind 0.0.0.0:8000"]
